@@ -34,7 +34,7 @@ def generate_auto_data(request):
         select_query = """
         SELECT * FROM health_data
         ORDER BY ID DESC
-        LIMIT 10
+        LIMIT 7
         """
         cursor = conn.cursor(dictionary=True)
         cursor.execute(select_query)

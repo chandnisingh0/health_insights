@@ -25,8 +25,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet"> -->
+    <!-- <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" /> -->
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -199,7 +199,7 @@
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Single Line Chart</h6>
+                            <h6 class="mb-4">Temperature Chart</h6>
                             <canvas id="line-chart"></canvas>
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                     </div>
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Multiple Bar Chart</h6>
+                            <h6 class="mb-4">RBC & WBC Bar Chart</h6>
                             <canvas id="worldwide-sales"></canvas>
                         </div>
                     </div>
@@ -273,6 +273,7 @@
     <script src="{% static 'lib/tempusdominus/js/moment.min.js' %}"></script>
     <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
     <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
@@ -284,6 +285,8 @@
 
     let temperatureValues = null;
     let myChart3 = null;
+    let myChart1 = null;
+
 
 
     // Function to update the line chart with smooth scrolling effect
@@ -315,22 +318,24 @@
                     // Create or update the line chart
                     if (!window.myChart3) {
                         createLineChart(reversedTemperatureValues);
+                        console.log("linechart+++++++++++if")
                     } else {
                         updateLineChart(window.myChart3, reversedTemperatureValues[0]);
+                        console.log("linechart+++++++++++else")
                     }
 
-                    const rbcValues = latestFetchedData.map(item => item.Temperature);
+                    const rbcValues = latestFetchedData.map(item => item.RBC);
                     const reversedRbcValues = rbcValues.slice().reverse(); // Reverse the temperature values
-                    console.log('Reversed Temperature Data:', reversedRbcValues);
+                    console.log('Reversed RBC Data:', reversedRbcValues);
 
-                    // const wbcValues = latestFetchedData.map(item => item.Temperature);
-                    // const reversedWbcValues = wbcValues.slice().reverse(); // Reverse the temperature values
-                    // console.log('Reversed Temperature Data:', reversedWbcValues);
+                    const wbcValues = latestFetchedData.map(item => item.WBC);
+                    const reversedWbcValues = wbcValues.slice().reverse(); // Reverse the temperature values
+                    console.log('Reversed WBC Data:', reversedWbcValues);
+                    worldwideSalesChart(reversedRbcValues, reversedWbcValues); // Replace 'worldwideSalesChart' with 'createBarChart'
 
                     // const plateletsValues = latestFetchedData.map(item => item.Temperature);
                     // const reversedPlateletsValues = plateletsValues.slice().reverse(); // Reverse the temperature values
                     // console.log('Reversed Temperature Data:', reversedPlateletsValues);
-
 
                 } else {
                     console.log('Data unchanged');
@@ -342,7 +347,7 @@
     }
 
     // Fetch data every 5 seconds
-    setInterval(fetchAndUseData, 5000);
+    setInterval(fetchAndUseData, 2000);
 
     // ++++++++++++++++++++++++++++++++++Function to create the single line chart++++++++++++++++++++++++++++++
     function createLineChart(reversedTemperatureValues) {
@@ -390,35 +395,63 @@
         });
     }
 
-
-
     // ++++++++++++++++++++++++++++++++++ Worldwide Sales Chart+++++++++++++++++++++++++++
-    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
-    var myChart1 = new Chart(ctx1, {
-        type: "bar",
-        data: {
-            labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
-            datasets: [{
-                    label: "USA",
-                    data: [15, 30, 55, 65, 60, 80, 95],
+    function worldwideSalesChart(reversedRbcValues, reversedWbcValues) {
+        // var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+        var ctx1 = document.getElementById("worldwide-sales").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChart1) {
+            window.myChart1.destroy();
+        }
+        window.myChart1 = new Chart(ctx1, {
+            type: "bar",
+            data: {
+                labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+                datasets: [{
+                    label: "RBC",
+                    data: reversedRbcValues,
                     backgroundColor: "rgba(235, 22, 22, .7)"
                 },
                 {
-                    label: "UK",
-                    data: [8, 35, 40, 60, 70, 55, 75],
+                    label: "WBC",
+                    data: reversedWbcValues,
                     backgroundColor: "rgba(235, 22, 22, .5)"
                 },
-                {
-                    label: "AU",
-                    data: [12, 25, 45, 55, 65, 70, 60],
-                    backgroundColor: "rgba(235, 22, 22, .3)"
-                }
-            ]
+                ]
             },
-        options: {
-            responsive: true
-        }
-    });
+            options: {
+                title: {
+                    display: true,
+                    text: 'Chart Title',
+                    font: {
+                        size: 16
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+
+        });
+
+
+
+    }
+
 </script>
 
 </html>
