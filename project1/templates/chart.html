@@ -200,9 +200,59 @@
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary rounded h-100 p-4">
                             <h6 class="mb-4">Temperature Chart</h6>
-                            <canvas id="line-chart"></canvas>
+                            <canvas id="tem-line-chart"></canvas>
                         </div>
                     </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Heartbeat</h6>
+                            <canvas id="Heartbeat-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">SpO2 Chart</h6>
+                            <canvas id="SpO2-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">Platelets</h6>
+                            <canvas id="Platelets-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <!-- ------------------------------------ -->
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">BloodGlucose</h6>
+                            <canvas id="BloodGlucose-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">HbConcentration</h6>
+                            <canvas id="HbConcentration-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">RespirationRate</h6>
+                            <canvas id="RespirationRate-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">StepCount</h6>
+                            <canvas id="StepCount-line-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xl-6">
+                        <div class="bg-secondary rounded h-100 p-4">
+                            <h6 class="mb-4">RBC & WBC Bar Chart</h6>
+                            <canvas id="worldwide-sales"></canvas>
+                        </div>
+                    </div>
+
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary rounded h-100 p-4">
                             <h6 class="mb-4">Multiple Line Chart</h6>
@@ -215,12 +265,7 @@
                             <canvas id="bar-chart"></canvas>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">RBC & WBC Bar Chart</h6>
-                            <canvas id="worldwide-sales"></canvas>
-                        </div>
-                    </div>
+
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-secondary rounded h-100 p-4">
                             <h6 class="mb-4">Pie Chart</h6>
@@ -236,8 +281,6 @@
                 </div>
             </div>
             <!-- Chart End -->
-
-
 
             <!-- Footer Start -->
             <div class="container-fluid pt-4 px-4">
@@ -283,14 +326,8 @@
 <script>
     let latestFetchedData = null;
 
-    let temperatureValues = null;
-    let myChart3 = null;
-    let myChart1 = null;
-
-
-
     // Function to update the line chart with smooth scrolling effect
-    function updateLineChart(chart, newTemperatureValue) {
+    function updateLineChartTem(chart, newTemperature) {
         // Get the current data
         const currentData = chart.data.datasets[0].data;
 
@@ -298,11 +335,115 @@
         currentData.shift();
 
         // Add the new temperature value to the right
-        currentData.push(newTemperatureValue);
+        currentData.push(newTemperature);
 
         // Update the chart
         chart.update();
     }
+
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartHeart(chart, newHeartbeatValue) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newHeartbeatValue);
+
+        // Update the chart
+        chart.update();
+    }
+
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartSpO2(chart, newSpO2Value) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newSpO2Value);
+
+        // Update the chart
+        chart.update();
+    }
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartPlatelets(chart, newPlateletsValue) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newPlateletsValue);
+
+        // Update the chart
+        chart.update();
+    }
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartBloodGlucose(chart, newBloodGlucose) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newBloodGlucose);
+
+        // Update the chart
+        chart.update();
+    }
+
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartHbConcentration(chart, newHbConcentration) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newHbConcentration);
+
+        // Update the chart
+        chart.update();
+    }
+
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartRespirationRate(chart, newRespirationRate) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newRespirationRate);
+
+        // Update the chart
+        chart.update();
+    }
+    // Function to update the line chart with smooth scrolling effect
+    function updateLineChartStepCount(chart, newStepCount) {
+        // Get the current data
+        const currentData = chart.data.datasets[0].data;
+
+        // Remove the leftmost point
+        currentData.shift();
+
+        // Add the new temperature value to the right
+        currentData.push(newStepCount);
+
+        // Update the chart
+        chart.update();
+    }
+
+
     function fetchAndUseData() {
         fetch('/generate_auto_data/')
             .then(response => response.json())
@@ -313,29 +454,96 @@
 
                     const temperatureValues = latestFetchedData.map(item => item.Temperature);
                     const reversedTemperatureValues = temperatureValues.slice().reverse(); // Reverse the temperature values
-                    console.log('Reversed Temperature Data:', reversedTemperatureValues);
+                    console.log('Temperature Data:', reversedTemperatureValues);
 
                     // Create or update the line chart
                     if (!window.myChart3) {
-                        createLineChart(reversedTemperatureValues);
-                        console.log("linechart+++++++++++if")
+                        createLineChartTem(reversedTemperatureValues);
                     } else {
-                        updateLineChart(window.myChart3, reversedTemperatureValues[0]);
-                        console.log("linechart+++++++++++else")
+                        updateLineChartTem(window.myChart3, reversedTemperatureValues[reversedTemperatureValues.length - 1]);
                     }
 
                     const rbcValues = latestFetchedData.map(item => item.RBC);
                     const reversedRbcValues = rbcValues.slice().reverse(); // Reverse the temperature values
-                    console.log('Reversed RBC Data:', reversedRbcValues);
-
+                    console.log('RBC Data:', reversedRbcValues);
                     const wbcValues = latestFetchedData.map(item => item.WBC);
                     const reversedWbcValues = wbcValues.slice().reverse(); // Reverse the temperature values
-                    console.log('Reversed WBC Data:', reversedWbcValues);
+                    console.log('WBC Data:', reversedWbcValues);
                     worldwideSalesChart(reversedRbcValues, reversedWbcValues); // Replace 'worldwideSalesChart' with 'createBarChart'
 
-                    // const plateletsValues = latestFetchedData.map(item => item.Temperature);
-                    // const reversedPlateletsValues = plateletsValues.slice().reverse(); // Reverse the temperature values
-                    // console.log('Reversed Temperature Data:', reversedPlateletsValues);
+                    const HeartbeatValues = latestFetchedData.map(item => item.Heartbeat);
+                    const reversedHeartbeatValues = HeartbeatValues.slice().reverse(); // Reverse the temperature values
+                    console.log('Heartbeat Data:', reversedHeartbeatValues);
+
+                    // Create or update the line chart
+                    if (!window.myChartHeart) {
+                        createLineChartHeart(reversedHeartbeatValues);
+                    } else {
+                        updateLineChartHeart(window.myChartHeart, reversedHeartbeatValues[reversedHeartbeatValues.length - 1]);
+                    }
+
+                    const SpO2Values = latestFetchedData.map(item => item.SpO2);
+                    const reversedSpO2Values = SpO2Values.slice().reverse(); // Reverse the temperature values
+                    console.log('Reversed SpO2 Data:', reversedSpO2Values);
+
+                    const PlateletsValues = latestFetchedData.map(item => item.Platelets);
+                    const reversedPlateletsValues = PlateletsValues.slice().reverse(); // Reverse the temperature values
+                    console.log('Platelets Data:', reversedPlateletsValues);
+
+                    // Create or update the line chart
+                    if (!window.myChartSpO2) {
+                        createLineChartSpO2(reversedSpO2Values);
+                    } else {
+                        updateLineChartSpO2(window.myChartSpO2, reversedSpO2Values[reversedSpO2Values.length - 1]);
+                    }
+                    // Create or update the line chart
+                    if (!window.myChartPlatelets) {
+                        createLineChartPlatelets(reversedPlateletsValues);
+                    } else {
+                        updateLineChartPlatelets(window.myChartPlatelets, reversedPlateletsValues[reversedPlateletsValues.length - 1]);
+
+                    }
+                    const BloodGlucoseValues = latestFetchedData.map(item => item.BloodGlucose);
+                    const reversedBloodGlucoseValues = BloodGlucoseValues.slice().reverse(); // Reverse the temperature values
+                    console.log('BloodGlucose Data:', reversedBloodGlucoseValues);
+
+                    const HbConcentrationValues = latestFetchedData.map(item => item.HbConcentration);
+                    const reversedHbConcentrationValues = HbConcentrationValues.slice().reverse(); // Reverse the temperature values
+                    console.log('HbConcentration Data:', reversedHbConcentrationValues);
+
+                    const RespirationRateValues = latestFetchedData.map(item => item.RespirationRate);
+                    const reversedRespirationRateValues = RespirationRateValues.slice().reverse(); // Reverse the temperature values
+                    console.log('RespirationRate Data:', reversedRespirationRateValues);
+
+                    const StepCountValues = latestFetchedData.map(item => item.StepCount);
+                    const reversedStepCountValues = StepCountValues.slice().reverse(); // Reverse the temperature values
+                    console.log('StepCount Data:', reversedStepCountValues);
+                    // Create or update the line chart
+                    if (!window.myChartBloodGlucose) {
+                        createLineChartBloodGlucose(reversedBloodGlucoseValues);
+                    } else {
+                        updateLineChartBloodGlucose(window.myChartBloodGlucose, reversedBloodGlucoseValues[reversedBloodGlucoseValues.length - 1]);
+                    }
+                    // Create or update the line chart
+                    if (!window.myChartHbConcentration) {
+                        createLineChartHbConcentration(reversedHbConcentrationValues);
+                    } else {
+                        updateLineChartHbConcentration(window.myChartHbConcentration, reversedHbConcentrationValues[reversedHbConcentrationValues.length - 1]);
+
+                    }
+                    // Create or update the line chart
+                    if (!window.myChartRespirationRate) {
+                        createLineChartRespirationRate(reversedRespirationRateValues);
+                    } else {
+                        updateLineChartRespirationRate(window.myChartRespirationRate, reversedRespirationRateValues[reversedRespirationRateValues.length - 1]);
+                    }
+                    // Create or update the line chart
+                    if (!window.myChartStepCount) {
+                        createLineChartStepCount(reversedStepCountValues);
+                    } else {
+                        updateLineChartStepCount(window.myChartStepCount, reversedStepCountValues[reversedStepCountValues.length - 1]);
+
+                    }
 
                 } else {
                     console.log('Data unchanged');
@@ -346,16 +554,16 @@
             });
     }
 
-    // Fetch data every 5 seconds
+    // Fetch data every 2 seconds
     setInterval(fetchAndUseData, 2000);
 
-    // ++++++++++++++++++++++++++++++++++Function to create the single line chart++++++++++++++++++++++++++++++
-    function createLineChart(reversedTemperatureValues) {
+    // ++++++++++++++++++++single line chart for tempreture ++++++++++++++++++++++++++++++
+    function createLineChartTem(reversedTemperatureValues) {
         // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
-        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday", "Tuesday"];
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-        // Get the canvas element and its context
-        var ctx3 = document.getElementById("line-chart").getContext("2d");
+        // Get the canvas element and its contexts
+        var ctx3 = document.getElementById("tem-line-chart").getContext("2d");
 
         // Destroy the previous chart instance if it exists
         if (window.myChart3) {
@@ -394,6 +602,331 @@
             }
         });
     }
+
+    // ++++++++++++++++++++single line chart for Heartbeat ++++++++++++++++++++++++++++++
+    function createLineChartHeart(reversedHeartbeatValues) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("Heartbeat-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartHeart) {
+            window.myChartHeart.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartHeart = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedHeartbeatValues.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "Heartbeat",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedHeartbeatValues
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Temperature"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    // ++++++++++++++++++++single line chart for SpO2 ++++++++++++++++++++++++++++++
+    function createLineChartSpO2(reversedSpO2Values) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("SpO2-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartSpO2) {
+            window.myChartSpO2.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartSpO2 = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedSpO2Values.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "SpO2",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedSpO2Values
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "SpO2"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+
+    // ++++++++++++++++++++single line chart for Platelets ++++++++++++++++++++++++++++++
+    function createLineChartPlatelets(reversedPlateletsValues) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("Platelets-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartPlatelets) {
+            window.myChartPlatelets.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartPlatelets = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedPlateletsValues.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "Platelets",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedPlateletsValues
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Platelets"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // ++++++++++++++++++++single line chart for BloodGlucose ++++++++++++++++++++++++++++++
+    function createLineChartBloodGlucose(reversedBloodGlucoseValues) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("BloodGlucose-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartBloodGlucose) {
+            window.myChartBloodGlucose.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartBloodGlucose = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedBloodGlucoseValues.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "BloodGlucose",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedBloodGlucoseValues
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Platelets"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // ++++++++++++++++++++single line chart for HbConcentration ++++++++++++++++++++++++++++++
+    function createLineChartHbConcentration(reversedHbConcentrationValues) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("HbConcentration-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartHbConcentration) {
+            window.myChartHbConcentration.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartHbConcentration = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedHbConcentrationValues.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "HbConcentration",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedHbConcentrationValues
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "HbConcentration"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // ++++++++++++++++++++single line chart for RespirationRate ++++++++++++++++++++++++++++++
+    function createLineChartRespirationRate(reversedRespirationRateValues) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("RespirationRate-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartRespirationRate) {
+            window.myChartRespirationRate.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartRespirationRate = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedRespirationRateValues.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "RespirationRate",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedRespirationRateValues
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "RespirationRate"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // ++++++++++++++++++++single line chart for StepCount ++++++++++++++++++++++++++++++
+    function createLineChartStepCount(reversedStepCountValues) {
+        // Create an array of labels for the x-axis (e.g., Sunday, Monday, Tuesday, ...)
+        const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
+        // Get the canvas element and its context
+        var ctx3 = document.getElementById("StepCount-line-chart").getContext("2d");
+
+        // Destroy the previous chart instance if it exists
+        if (window.myChartStepCount) {
+            window.myChartStepCount.destroy();
+        }
+        // Create a new Chart instance
+        window.myChartStepCount = new Chart(ctx3, {
+            type: "line",
+            data: {
+                labels: daysOfWeek.slice(0, reversedStepCountValues.length), // Use the same number of labels as temperature values
+                datasets: [{
+                    label: "StepCount",
+                    fill: false,
+                    backgroundColor: "rgba(235, 22, 22, .7)",
+                    data: reversedStepCountValues
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Day of the Week"
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "StepCount"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 
     // ++++++++++++++++++++++++++++++++++ Worldwide Sales Chart+++++++++++++++++++++++++++
     function worldwideSalesChart(reversedRbcValues, reversedWbcValues) {
