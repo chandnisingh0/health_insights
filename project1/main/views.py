@@ -42,6 +42,8 @@ def signup(request):
     return render(request, 'signup.html')
 
 
+
+
 def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -52,7 +54,7 @@ def signin(request):
                 host='localhost',
                 user='newuser',
                 password='newpassword',
-                database='mydb',  # Use the common database
+                database='mydb1',  # Use the common database
                 port=3306,
             )
             now = datetime.now()
@@ -143,17 +145,17 @@ def signin(request):
             return render(request, 'signin.html', {'error_message': error_message})
 
     remember_me_cookie = request.COOKIES.get('remember_me')
-    table_name_cookie = request.COOKIES.get('table_name')
-    value = table_name_cookie.strip('/').split('/')[-1]
 
     if remember_me_cookie:
+        table_name_cookie = request.COOKIES.get('table_name')
+        value = table_name_cookie.strip('/').split('/')[-1]
+
         try:
             redirect_url = f'/private_dashboard/{value}/'
             return HttpResponseRedirect(redirect_url)
         except:
             pass
     return render(request, 'signin.html')
-
 
 def logout(request):
     if 'remember_me' in request.COOKIES:
@@ -169,7 +171,7 @@ def generate_auto_data(request):
             host='localhost',
             user='newuser',
             password='newpassword',
-            database='mydb',
+            database='mydb1',
             port=3306,
         )
         original_string = request.COOKIES.get('table_name', None)
@@ -197,8 +199,9 @@ def generate_auto_data(request):
 
 @csrf_exempt
 def generate_and_insert_data(request):
-
+    username = ""
     if request.method == 'POST' or request.method == 'GET':
+        username = request.POST.get('username')
         try:
             remember_me_cookie = request.COOKIES.get('remember_me')
             print("remembber error++++++++++++++++++++++++++++++")
@@ -213,13 +216,14 @@ def generate_and_insert_data(request):
                 host='localhost',
                 user='newuser',
                 password='newpassword',
-                database='mydb',  # Use the common database
+                database='mydb1',  # Use the common database
                 port=3306,
             )
 
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d %H:%M:%S")
             obj = {
+                'Username': username,
                 'CurrentTime': current_time,
                 'Temperature': random.uniform(90.0, 120.0),
                 'Heartbeat': random.randint(60, 100),
@@ -250,15 +254,15 @@ def generate_and_insert_data(request):
             print(unique_table_name, "++++++++++++++++++++++++++++++++++++++")
             insert_query = f"""
                 INSERT INTO {unique_table_name} (
-                    CurrentTime, Temperature, Heartbeat, SpO2, RBC, WBC, Platelets,
+                    Username, CurrentTime, Temperature, Heartbeat, SpO2, RBC, WBC, Platelets,
                     BloodGlucose, HbConcentration, RespirationRate, SleepMonitoring, StepCount, MovementData
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
             """
 
             values = (
-                current_time, obj['Temperature'], obj['Heartbeat'], obj['SpO2'], obj['RBC'], obj['WBC'], obj['Platelets'],
+                obj['Username'], current_time, obj['Temperature'], obj['Heartbeat'], obj['SpO2'], obj['RBC'], obj['WBC'], obj['Platelets'],
                 obj['BloodGlucose'], obj['HbConcentration'], obj['RespirationRate'], obj['SleepMonitoring'],
                 obj['StepCount'], obj['MovementData']
             )

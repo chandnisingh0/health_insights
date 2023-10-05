@@ -14,7 +14,7 @@ class HealthData(models.Model):
     SleepMonitoring = models.CharField(max_length=50)
     StepCount = models.IntegerField()
     MovementData = models.CharField(max_length=50)
-
+ 
 
 class SigninUser(models.Model):
     username = models.CharField(max_length=50)
