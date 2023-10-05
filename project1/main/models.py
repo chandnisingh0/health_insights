@@ -14,3 +14,13 @@ class HealthData(models.Model):
     SleepMonitoring = models.CharField(max_length=50)
     StepCount = models.IntegerField()
     MovementData = models.CharField(max_length=50)
+
+
+class SigninUser(models.Model):
+    username = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    password = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.username

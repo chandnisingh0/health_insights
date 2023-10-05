@@ -143,6 +143,7 @@ import os
 
 # Add the 'STATIC_URL' setting
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Add the 'STATICFILES_DIRS' setting
 STATICFILES_DIRS = [

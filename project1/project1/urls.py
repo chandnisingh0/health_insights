@@ -20,11 +20,19 @@ from main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ('homepage', views.homepage,name='homepage page'),
+    path ('home', views.home,name='home page'),
+    path ('signin', views.signin,name='signin page'),
+    path ('signup', views.signup,name='signup page'),
+    # path('private_dashboard', views.private_dashboard, name='private_dashboard'),
+    path('logout', views.logout, name='logout page'),
+
     path ('chart', views.chart,name='chart page'),
     path('api/generate-auto-data/', views.generate_auto_data, name='generate_auto_data'),
     path('generate_auto_data/', views.generate_auto_data, name='generate_auto_data'),
     path('api/generate_and_insert_data/', views.generate_and_insert_data, name='generate_and_insert_data'),
+    path('private_dashboard/user_tabledata&<str:table_name>/', views.private_dashboard, name='private_dashboard'),
+
+    # re_path(r'^private_dashboard/(?P<unique_table_name>[\w\d_]+)/$', generate_and_insert_data),
 
 
     # path('fetch_temperature_data/', views.fetch_temperature_data, name='fetch_temperature_data'),
