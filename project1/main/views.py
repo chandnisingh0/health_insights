@@ -16,16 +16,42 @@ from .models import SigninUser
 from django.contrib.auth import authenticate, login
 
 from django.urls import reverse
+from django.http import HttpRequest
+from .models import Contact  # Rename the model class to Contact
+
 
 def home(request):
     return render(request, 'home.html')
 
+def contact_view(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+    
+        if name and email and message:
+            user = Contact(name=name, email=email, message=message)  # Create a Contact object
+            user.save()
+            return render(request, 'contact.html')
+
+    return render(request, 'contact.html')
+
+
 def chart(request):
     return render(request, 'chart.html')
-
+from django.shortcuts import render
+from .models import SigninUser  # Import your SigninUser model
 
 def private_dashboard(request, table_name):
-    return render(request, 'private_dashboard.html')
+    remember_me_cookie = request.COOKIES.get('remember_me')
+    if remember_me_cookie:
+        username = remember_me_cookie.split(':')[0]
+        user_value = SigninUser.objects.filter(username=username).first()
+    else:
+        user_value = None  
+
+    return render(request, 'private_dashboard.html', {'user_value': user_value})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -33,22 +59,22 @@ def signup(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        print(username, name, email, password)
-        if username and name and email and password:
-            user = SigninUser(username=username, name=name,
-                              email=email, password=password)
+        uploaded_image = request.FILES.get('image')  # Correctly get the uploaded image file
+
+        if username and name and email and password and uploaded_image:
+            user = SigninUser(username=username, name=name, email=email, password=password, image=uploaded_image)
             user.save()
             return render(request, 'signin.html')
+
+
     return render(request, 'signup.html')
-
-
-
 
 def signin(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         remember_me = request.POST.get('rememberme')
+
         try:
             conn = mysql.connector.connect(
                 host='localhost',
@@ -60,6 +86,7 @@ def signin(request):
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d %H:%M:%S")
             obj = {
+                'Username': username,
                 'CurrentTime': current_time,
                 'Temperature': random.uniform(90.0, 120.0),
                 'Heartbeat': random.randint(60, 100),
@@ -80,6 +107,7 @@ def signin(request):
             cursor.execute(f"""
             CREATE TABLE IF NOT EXISTS {unique_table_name} (
                 ID INT AUTO_INCREMENT PRIMARY KEY,
+                Username VARCHAR(255),
                 CurrentTime DATETIME,
                 Temperature FLOAT,
                 Heartbeat INT,
@@ -97,14 +125,14 @@ def signin(request):
                 """)
             insert_query = f"""
                 INSERT INTO {unique_table_name} (
-                    CurrentTime, Temperature, Heartbeat, SpO2, RBC, WBC, Platelets,
+                    Username, CurrentTime, Temperature, Heartbeat, SpO2, RBC, WBC, Platelets,
                     BloodGlucose, HbConcentration, RespirationRate, SleepMonitoring, StepCount, MovementData
                 ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                 )
             """
             values = (
-                current_time, obj['Temperature'], obj['Heartbeat'], obj['SpO2'], obj['RBC'], obj['WBC'], obj['Platelets'],
+               obj['Username'],  current_time, obj['Temperature'], obj['Heartbeat'], obj['SpO2'], obj['RBC'], obj['WBC'], obj['Platelets'],
                 obj['BloodGlucose'], obj['HbConcentration'], obj['RespirationRate'], obj['SleepMonitoring'],
                 obj['StepCount'], obj['MovementData']
             )
@@ -128,7 +156,7 @@ def signin(request):
                                       args=[unique_table_name])
                         response = HttpResponseRedirect(url)
 
-                        print(url, "++_________________________________________")
+                        # print(url, "++_________________________________________")
 
                         response.set_cookie('remember_me', signed_username)
                         response.set_cookie('table_name', url)
@@ -161,6 +189,7 @@ def logout(request):
     if 'remember_me' in request.COOKIES:
         response = HttpResponseRedirect('/home')
         response.delete_cookie('remember_me')
+        response.delete_cookie('table_name')
         return response
     else:
         return HttpResponseRedirect('/home')
@@ -176,25 +205,32 @@ def generate_auto_data(request):
         )
         original_string = request.COOKIES.get('table_name', None)
 
-        if original_string.endswith('/'):
-            original_string = original_string[:-1]
+        if original_string is not None:
+            if original_string.endswith('/'):
+                original_string = original_string[:-1]
 
-        parts = original_string.split('&')
-        if len(parts) > 1:
-            unique_table_name = parts[1]
-            print(unique_table_name)
+            parts = original_string.split('&')
+            if len(parts) > 1:
+                unique_table_name = parts[1]
 
-        select_query = f"""
-        SELECT * FROM {unique_table_name}
-        ORDER BY ID DESC
-        LIMIT 7
-        """
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute(select_query)
-        latest_data_list = cursor.fetchall()
-        return JsonResponse({'latest_data_list': latest_data_list}, json_dumps_params={'indent': 4})
+            select_query = f"""
+            SELECT * FROM {unique_table_name}
+            ORDER BY ID DESC
+            LIMIT 7
+            """
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(select_query)
+            latest_data_list = cursor.fetchall()
+            return JsonResponse({'latest_data_list': latest_data_list}, json_dumps_params={'indent': 4})
+        else:
+            return JsonResponse({'error': 'table_name cookie not found'}, status=400)
     except mysql.connector.Error as e:
         return JsonResponse({'error': str(e)})
+
+
+
+
+
 
 
 @csrf_exempt
@@ -204,7 +240,6 @@ def generate_and_insert_data(request):
         username = request.POST.get('username')
         try:
             remember_me_cookie = request.COOKIES.get('remember_me')
-            print("remembber error++++++++++++++++++++++++++++++")
 
             if not remember_me_cookie:
                 return JsonResponse({'error': 'User not authenticated'}, status=401)
@@ -246,12 +281,10 @@ def generate_and_insert_data(request):
             parts = original_string.split('&')
             if len(parts) > 1:
                 unique_table_name = parts[1]
-                print(unique_table_name)
 
             if not unique_table_name:
                 return JsonResponse({'error': 'User not authenticated'}, status=401)
 
-            print(unique_table_name, "++++++++++++++++++++++++++++++++++++++")
             insert_query = f"""
                 INSERT INTO {unique_table_name} (
                     Username, CurrentTime, Temperature, Heartbeat, SpO2, RBC, WBC, Platelets,
@@ -281,3 +314,36 @@ def generate_and_insert_data(request):
 
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+
+
+
+def print(request):
+    return render(request, 'print_insight.html')
+
+
+
+
+
+# import json
+# import requests
+# from django.shortcuts import render
+# from django.http import HttpResponseServerError
+
+# def print(request):
+#     # Make a GET request to the API URL
+#     api_url = "http://127.0.0.1:8000/generate_auto_data/"
+#     response = requests.get(api_url)
+
+#     if response.status_code == 200:
+
+#         try:
+#             data = json.loads(response.text)
+#             latest_data_list = data.get("latest_data_list", [])
+#         except json.JSONDecodeError as e:
+#             return HttpResponseServerError("Error decoding JSON data: " + str(e))
+#     else:
+#         latest_data_list = []
+
+#     return render(request, "print_insight.html", {"latest_data_list": latest_data_list})

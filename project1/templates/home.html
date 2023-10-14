@@ -5,7 +5,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Simple Website</title>
+  <title>Heath Insights</title>
   <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
   <link rel="stylesheet" href="{% static 'css/hompage_option.css' %}">
   <link rel="stylesheet"
@@ -66,14 +66,19 @@
 
   <body>
     <header>
-      <h1 class="logo">Instrument</h1>
+      <!-- <h1 class="logo">Instrument</h1> -->
       <input type="checkbox" class="nav-toggle" id="nav-toggle">
       <nav>
         <ul>
+
           <li> <a href="/signin" style="color: var(--light);">Sign-In</a></li>
           <li> <a href="/signup" style="color: var(--light);">Sign-Up</a></li>
-          <!-- <li> <a href="">Being Here</a></li>  -->
-          <!-- <li> <a href="">Careers</a></li> -->
+          <form action="{% url 'logout page' %}" method="post">
+            {% csrf_token %} 
+          <li> <button type="submit" style="    font-size: 26px;color: var(--light);">Logout</button></li>
+
+        </form>
+
         </ul>
       </nav>
       <label for="nav-toggle" class="nav-toggle-label">
@@ -99,13 +104,15 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
     <section class="">
       <video autoplay loop muted>
         <source src="{% static 'img/home_video.mp4' %}" type="video/mp4">
-        Your browser does not support the video tag.
       </video>
-      <!-- <img src=https://images.unsplash.com/photo-1667826385031-2b4d06d686d8?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2Njk2MDMyODU&ixlib=rb-4.0.3&q=80> -->
     </section>
 
     <!-- Section Three -->
     <section class="section-three">
+      <h3 class="font-size: 1.5rem;">In a world increasingly driven by data and technology, we present to you a game-changer in the realm of health and well-being. HealthWatch Insights is not just a project; it's a vision to transform the way we perceive and manage our health.</h3>
+  
+      <h1>What We Offer:</h1>
+    
       <!-- <h3>We enrich human lives through the thoughtful application of design and technology</h3> -->
     </section>
 
@@ -114,15 +121,15 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
 
 
     <!-- =======================================option start=========================================================== -->
-    <h1>What We Offer:</h1>
 
     <div class="container card-row">
       
       <div class="card" style="left: -27%;">
         <div class="border"></div>
         <div class="filter"></div>
-        <h2>Personalized Insights:</h2>
-        <p>Our advanced algorithms transform your data into meaningful insights. Understand your body better than ever.</p>
+        <h2>Personalized Insights:</h2></br>
+        <p style="font-size: 19px;color: white;">
+          Our advanced algorithms transform your data into meaningful insights. </br>Understand your body better than ever.</p>
         <div class="shadow"></div>
         <div class="backdrop"></div>
 
@@ -133,8 +140,8 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
 
         <div class="border"></div>
         <div class="filter"></div>
-        <h2>Real-time Monitoring:</h2>
-        <p>Stay ahead of potential health issues with our proactive alerts. Receive notifications before they become problems.</p>
+        <h2>Real-time Monitoring:</h2></br>
+        <p style="font-size: 19px;color: white;">Stay ahead of potential health issues with our proactive alerts. </br>Receive notifications before they become problems.</p>
         <div class="shadow"></div>
         <div class="backdrop"></div>
       </div>
@@ -142,8 +149,8 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
       <div class="card" style="left: -27%;">
         <div class="border"></div>
         <div class="filter"></div>
-        <h2>Interactive Health Dashboards</h2>
-        <p>Visualize your progress with interactive graphs and charts. Track your health goals effortlessly.</p>
+        <h2>Interactive Health Dashboards</h2></br>
+        <p style="font-size: 19px;color: white;">Visualize your progress with interactive graphs and charts. </br>Track your health goals effortlessly.</p>
         <div class="shadow"></div>
         <div class="backdrop"></div>
       </div>
@@ -151,8 +158,8 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
       <div class="card" style="right: -27%;">
         <div class="border"></div>
         <div class="filter"></div>
-        <h2>Your Personal Health Hub:</h2>
-        <p>Every user gets a personalized portal to manage their health data, set goals, and access valuable resources.</p>
+        <h2>Your Personal Health Hub:</h2></br>
+        <p style="font-size: 19px;color: white;">Every user gets a personalized portal to manage their health data, set goals, and access valuable resources.</p>
         <div class="shadow"></div>
         <div class="backdrop"></div>
       </div>
@@ -160,8 +167,9 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
       <div class="card" style="left: -27%;">
         <div class="border"></div>
         <div class="filter"></div>
-        <h2>The Fifth</h2>
-        <p>Okay, this is getting out of hand.<br>But hover over this one too, I guess.</p>
+        <h2>User Authentication: </h2></br>
+        <p style="font-size: 19px;color: white;">Implement strong user authentication mechanisms, including password policies, multi-factor authentication (MFA), and account lockout mechanisms to protect against unauthorized access.
+        </p>
         <div class="shadow"></div>
         <div class="backdrop"></div>
       </div>
@@ -169,8 +177,10 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
       <div class="card" style="right: -27%;">
         <div class="border"></div>
         <div class="filter"></div>
-        <h2>Last One.</h2>
-        <p>Phew! Finally. The very last card.<br>Well, hope this has been fun...</p>
+        <h2>Data Privacy: </h2></br>
+        <p style="font-size: 19px;color: white;">Comply with data privacy regulations such as HIPAA (if applicable) to protect user health information.<br> Limit access to sensitive data to authorized personnel only.
+
+        </p>
         <div class="shadow"></div>
         <div class="backdrop"></div>
       </div>
@@ -214,7 +224,7 @@ color: #191C24 !important; font-weight: bold; font-size: 26px; text-align: cente
 
     <section class="section-ten">
       <h3>We'd love to be your partner</h3>
-      <a href="" class="learn-more-btn section-ten-btn">Get In Touch</a>
+      <a href="Contact" class="learn-more-btn section-ten-btn">Get In Touch</a>
     </section>
 
   </body>

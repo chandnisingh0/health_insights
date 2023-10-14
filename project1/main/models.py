@@ -21,6 +21,18 @@ class SigninUser(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     password = models.CharField(max_length=128)
+    image = models.ImageField(upload_to='images/', default="% static {'img/profile_default_img.jpg'} %")
 
     def __str__(self):
         return self.username
+
+
+class Contact(models.Model):  # Rename the model class to Contact
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.CharField(max_length=700, default='Your default message here')
+
+    # message = models.CharField(max_length=700)  # Rename this field to 'message'
+
+    def __str__(self):
+        return self.name

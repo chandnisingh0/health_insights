@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from main import views
 
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,11 +33,13 @@ urlpatterns = [
     path('generate_auto_data/', views.generate_auto_data, name='generate_auto_data'),
     path('api/generate_and_insert_data/', views.generate_and_insert_data, name='generate_and_insert_data'),
     path('private_dashboard/user_tabledata&<str:table_name>/', views.private_dashboard, name='private_dashboard'),
+    # path('private_dashboard', views.private_dashboard, name='private_dashboard'),
 
-    # re_path(r'^private_dashboard/(?P<unique_table_name>[\w\d_]+)/$', generate_and_insert_data),
+    path('print', views.print, name='print'),
+    path('Contact', views.contact_view, name='Contact'),
 
-
-    # path('fetch_temperature_data/', views.fetch_temperature_data, name='fetch_temperature_data'),
     
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

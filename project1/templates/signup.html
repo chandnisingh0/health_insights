@@ -32,6 +32,84 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+
+    <style>
+        .profile-pic {
+            color: transparent;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .profile-pic input {
+            display: none;
+        }
+
+        .profile-pic img {
+            position: absolute;
+            object-fit: cover;
+            width: 165px;
+            height: 165px;
+            box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.35);
+            border-radius: 100px;
+            z-index: 0;
+        }
+
+        .profile-pic .-label {
+            cursor: pointer;
+            height: 165px;
+            width: 165px;
+        }
+
+        .profile-pic:hover .-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            color: #fafafa;
+            transition: background-color 0.2s ease-in-out;
+            border-radius: 100px;
+            margin-bottom: 0;
+        }
+
+        .profile-pic span {
+            display: inline-flex;
+            padding: 0.2em;
+            height: 2em;
+        }
+
+        body {
+            height: 100vh;
+            background-color: #191815;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body a:hover {
+            text-decoration: none;
+        }
+
+        /* Define the dark button style */
+        .dark-button {
+            background-color: #333; /* Dark background color */
+            color: #fff; /* Text color */
+            padding: 190px 20px; /* Padding for the button */
+            border: none; /* Remove button border */
+            cursor: pointer; /* Change cursor on hover */
+            border-radius: 5px; /* Add rounded corners */
+        }
+
+        /* Add some hover effect */
+        .dark-button:hover {
+            background-color: #555; /* Darker background on hover */
+        }
+    </style>
 </head>
 
 <body>
@@ -45,22 +123,45 @@
         </div>
         <!-- Spinner End -->
 
+        <a href="/home" class="dark-button"><b>HOME</b></a>
 
         <!-- Sign Up Start -->
         <div class="container-fluid">
             <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                     <div class="bg-secondary rounded p-4 p-sm-5 my-4 mx-3">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <a href="index.html" class="">
-                                <!-- <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3> -->
-                            </a>
-                            <h3>Sign Up</h3>
-                     
 
-                        </div>
-                        <form method="post">
+                        <form method="post" action="{% url 'signup page' %}" enctype="multipart/form-data">
+
                             {% csrf_token %}
+
+
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <a href="index.html" class="">
+                                    <!-- <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3> -->
+                                </a>
+
+
+
+
+
+
+                                <div class="profile-pic">
+                                    <label class="-label" for="file">
+                                        <span class="glyphicon glyphicon-camera"></span>
+                                        <span>Change Image</span>
+                                    </label>
+                                    <input id="file" type="file" name="image" onchange="loadFile(event)" />
+                                    <img name="image"
+                                        src="https://cdn.pixabay.com/photo/2017/08/06/21/01/louvre-2596278_960_720.jpg"
+                                        id="output" width="200" />
+                                </div>
+
+
+
+                            </div>
+                            <h3>Sign Up</h3>
+
                             <div class="form-floating mb-3">
                                 <input name="username" type="text" class="form-control" id="floatingText"
                                     placeholder="jhondoe">
@@ -81,13 +182,20 @@
                                     placeholder="Password">
                                 <label for="floatingPassword">Password</label>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between mb-4">
 
-                                <a href="">Forgot Password</a>
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <div class="form-check">
+                                    <input name="rememberme" type="checkbox" class="form-check-input"
+                                        id="exampleCheck1">
+                                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                                </div>
                             </div>
+
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Sign Up</button>
+
                             <p class="text-center mb-0">Already have an Account? <a href="/signin">Sign In</a></p>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -108,6 +216,15 @@
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById("output");
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+
+    </script>
+
 </body>
 
 </html>
