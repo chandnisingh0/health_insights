@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/dashbored_all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dashbored_style.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/simple_nutrition_style.css' %}">
+
+</head>
+<style>
+        .custom-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #8B0000; /* Dark Red */
+            color: #fff; /* White text */
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+            perspective: 1000px; /* Perspective for 3D effect */
+        }
+
+        .custom-button span {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        /* Hover Animation */
+        .custom-button:hover span {
+            transform: translateY(-5px) translateZ(10px); /* Apply translation in 3D space */
+        }
+</style>
+
+<body>
+    <div class="page d-flex">
+
+        <div class="sidebar p-20 p-relative">
+            {% if user_value %}
+            <h3 class="p-relative txt-c mt-0">{{ user_value.username }}</h3>
+            {% endif %}
+            <ul>
+                <li>
+                    <a class=" d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'profile' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'nutrient_calculator' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Nutrient Calculator</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="active d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'simple_nutrition' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Simple Nutrition</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="settings.html">
+                        <i class="fa-solid fa-gear fa-fw"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="courses.html">
+                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                        <span>Courses</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="friends.html">
+                        <i class="fa-regular fa-circle-user fa-fw"></i>
+                        <span>Friends</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="files.html">
+                        <i class="fa-regular fa-file fa-fw"></i>
+                        <span>Files</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="content w-full">
+            <!-- Start Head -->
+            <div class="head p-15 between-flex">
+                <div class="search p-relative">
+                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                </div>
+                <form action="{% url 'logout page' %}" method="post">
+                    {% csrf_token %}
+                    <button style="height: 44px;
+                    width: 110px; background-color: var(--secondary);" type="submit"><span
+                            style="color: red;"><b>Logout</b></span></button>
+                </form>
+                <div class="icons d-flex align-center">
+                    <span class="notification p-relative">
+                        <i class="fa-regular fa-bell fa-lg"></i>
+                    </span>
+                    <img src="{{ user_value.uploaded_image }}" alt="" />
+                </div>
+            </div>
+            <!-- End Head -->
+            <h1 class="p-relative">Simple Nutrition</h1>
+
+
+            <!-- -------------------------------------------------------------------------------------- -->
+
+            <div class="menu-wrapper">
+                <header class="main-header">
+                    <div class="logo-title-box">
+                        {% if user_value %}
+
+                        <a href="#">
+                            <h1 class="brewery-title">According To Your Age : {{ user_value.age }}</h1>
+                        </a>
+                        {% endif %}
+
+                    </div>
+                </header>
+
+                <main class="main-content">
+                    <div class="hr hr-first dashed"></div>
+                    <div class="hr hr-second dashed"></div>
+                    <!-- beberages-section -->
+                    <section class="beverages-section" style="color: white;">
+                        {% if nutritional_data %}
+
+                        <h3 class="section-title">{{ nutritional_data.age_group }}</h3>
+                        <div class="beverages-main-content">
+                            <img src="https://cdn.pixabay.com/photo/2016/06/10/06/00/lemonade-1447521_960_720.png"
+                                alt="Image of a Drink" class="section-main-img">
+                            <div class="beer-menu-list grid" >
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Age group:</p>
+                                    <p>{{ nutritional_data.age_group }}</p>
+                                </div>
+                                <div class="beer-menu-hr col-2 grid-item"></div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Calories per kg:</p>
+                                    <p>{{ nutritional_data.calories_per_kg }}</p>
+                                </div>
+                                <div class="beer-menu-hr col-2 grid-item"></div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Protein:</p>
+                                    <p>{{ nutritional_data.protein }}</p>
+                                </div>
+                                <div class="beer-menu-hr col-2 grid-item"></div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Fat:</p>
+                                    <p>{{ nutritional_data.fat }}</p>
+                                </div>
+                                <div class="beer-menu-hr col-2 grid-item"></div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Carbohydrates:</p>
+                                    <p>{{ nutritional_data.carbohydrates }}</p>
+                                </div>
+
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Calcium::</p>
+                                    <p>{{ nutritional_data.calcium }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Vitamin d iu:</p>
+                                    <p>{{ nutritional_data.vitamin_d_iu }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Fiber:</p>
+                                    <p>{{ nutritional_data.fiber }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Iron:</p>
+                                    <p>{{ nutritional_data.iron }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Minerals:</p>
+                                    <p>{{ nutritional_data.minerals }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Nutrient ratios:</p>
+                                    <p>{{ nutritional_data.nutrient_ratios }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Meal frequency level:</p>
+                                    <p>{{ nutritional_data.meal_frequency_level }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Adjustments for physical activity:</p>
+                                    <p>{{ nutritional_data.adjustments_for_physical_activity }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Dynamic Updates</p>
+                                    <p>{{ nutritional_data.dynamic_updates }}</p>
+                                </div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>Water consumption:</p>
+                                    <p>{{ nutritional_data.water_consumption }}</p>
+                                </div>
+                                <div class="beer-menu-hr col-2 grid-item"></div>
+
+                            </div>
+                        </div>
+                        
+
+                        <a href="{% url 'required_meal' table_name='user_data_image' %}" class="custom-button"><span>Click me</span></a>
+
+                    </section>
+                    <div class="hr solid hr-first"></div>
+                    <div class="hr solid hr-second"></div>
+                    <div class="hr solid hr-second"></div>
+                    <div class="hr solid hr-second"></div>
+                    <div class="hr hr-second dashed"></div>
+                    <div class="hr hr-second dashed"></div>
+            
+                </main>
+            </div>
+            <!-- partial -->
+            {% else %}
+            <p>No nutritional data available for the specified age.</p>
+            {% endif %}
+
+
+            <!-- --------------------------------------------------------------------  -->
+
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

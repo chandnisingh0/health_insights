@@ -19,9 +19,13 @@ from django.urls import reverse
 from django.http import HttpRequest
 from .models import Contact  # Rename the model class to Contact
 
+from .models import NutritionModel
+from .models import MealInstructionModel
+
 
 def home(request):
     return render(request, 'home.html')
+
 
 def contact_view(request):
     if request.method == 'POST':
@@ -39,19 +43,6 @@ def contact_view(request):
 
 def chart(request):
     return render(request, 'chart.html')
-from django.shortcuts import render
-from .models import SigninUser  # Import your SigninUser model
-
-def private_dashboard(request, table_name):
-    remember_me_cookie = request.COOKIES.get('remember_me')
-    if remember_me_cookie:
-        username = remember_me_cookie.split(':')[0]
-        user_value = SigninUser.objects.filter(username=username).first()
-    else:
-        user_value = None  
-
-    return render(request, 'private_dashboard.html', {'user_value': user_value})
-
 
 def signup(request):
     if request.method == 'POST':
@@ -59,15 +50,98 @@ def signup(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        uploaded_image = request.FILES.get('image')  # Correctly get the uploaded image file
+        gender = request.POST.get('gender')
+        age = request.POST.get('age')
+        height = request.POST.get('height')
+        weight = request.POST.get('weight')
+        veg_nonveg = request.POST.get('veg_nonveg')
+        state = request.POST.get('state')
+        phone = request.POST.get('phone')
+        dob = request.POST.get('dob')
+        uploaded_image = request.FILES.get('image')
 
-        if username and name and email and password and uploaded_image:
-            user = SigninUser(username=username, name=name, email=email, password=password, image=uploaded_image)
-            user.save()
-            return render(request, 'signin.html')
+        # print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print(password)
 
+
+        # if username and name and email and password and uploaded_image:
+        if username and name and email and password:
+            try:
+                conn = mysql.connector.connect(
+                    host='localhost',
+                    user='newuser',
+                    password='newpassword',
+                    database='mydb1',
+                    port=3306,
+                )
+                cursor = conn.cursor()
+
+                # Create a table for the new user during signup
+                unique_table_name = f"user_data_{username.lower()}"
+                create_table_query = f"""
+                    CREATE TABLE IF NOT EXISTS {unique_table_name} (
+                        ID INT AUTO_INCREMENT PRIMARY KEY,
+                        Username VARCHAR(255),
+                        CurrentTime DATETIME,
+                        Temperature FLOAT,
+                        Heartbeat INT,
+                        SpO2 INT,
+                        RBC FLOAT,
+                        WBC FLOAT,
+                        Platelets FLOAT,
+                        BloodGlucose FLOAT,
+                        HbConcentration FLOAT,
+                        RespirationRate INT,
+                        SleepMonitoring VARCHAR(255),
+                        StepCount INT,
+                        MovementData VARCHAR(255)
+                    );
+                """
+                cursor.execute(create_table_query)
+
+                # Save user details in the SigninUser model
+                user = SigninUser(
+                        username=username,
+                        name=name,
+                        email=email,
+                        password=password,
+                        gender=gender,
+                        age=age,
+                        height=height,
+                        weight=weight,
+                        veg_nonveg=veg_nonveg,
+                        state=state,
+                        phone=phone,
+                        dob=dob,
+                        uploaded_image=uploaded_image
+                    )
+
+                user.save()
+
+                conn.commit()
+                conn.close()
+
+                return render(request, 'signin.html')
+
+            except mysql.connector.Error as e:
+                return JsonResponse({'error': str(e)})
 
     return render(request, 'signup.html')
+
+
+# <<<<<<< start <<<<<<<<<<<<<< the all sigin user checking exsistig or user creation  >>>>>>>>>>>>>>>>>>>>>>>>>>
+
+def get_last_sequence_number():
+    try:
+        with open("last_sequence_number.txt", "r") as file:
+            return int(file.read())
+    except FileNotFoundError:
+        return 0
+
+def update_last_sequence_number(sequence_number):
+    with open("last_sequence_number.txt", "w") as file:
+        file.write(str(sequence_number))
+
 
 def signin(request):
     if request.method == 'POST':
@@ -75,72 +149,6 @@ def signin(request):
         password = request.POST.get('password')
         remember_me = request.POST.get('rememberme')
 
-        try:
-            conn = mysql.connector.connect(
-                host='localhost',
-                user='newuser',
-                password='newpassword',
-                database='mydb1',  # Use the common database
-                port=3306,
-            )
-            now = datetime.now()
-            current_time = now.strftime("%Y-%m-%d %H:%M:%S")
-            obj = {
-                'Username': username,
-                'CurrentTime': current_time,
-                'Temperature': random.uniform(90.0, 120.0),
-                'Heartbeat': random.randint(60, 100),
-                'SpO2': random.randint(90, 100),
-                'RBC': random.uniform(4.0, 6.5),
-                'WBC': random.uniform(4.0, 11.0),
-                'Platelets': random.uniform(150.0, 450.0),
-                'BloodGlucose': random.uniform(70, 140),
-                'HbConcentration': random.uniform(12.0, 16.0),
-                'RespirationRate': random.randint(12, 20),
-                'SleepMonitoring': random.choice(['Awake', 'Light Sleep', 'Deep Sleep']),
-                'StepCount': random.randint(1000, 10000),
-                'MovementData': random.choice(['Sedentary', 'Light Activity', 'Moderate Activity', 'High Activity'])
-            }
-            cursor = conn.cursor()
-            unique_table_name = f"user_data_{uuid.uuid4().hex}"
-
-            cursor.execute(f"""
-            CREATE TABLE IF NOT EXISTS {unique_table_name} (
-                ID INT AUTO_INCREMENT PRIMARY KEY,
-                Username VARCHAR(255),
-                CurrentTime DATETIME,
-                Temperature FLOAT,
-                Heartbeat INT,
-                SpO2 INT,
-                RBC FLOAT,
-                WBC FLOAT,
-                Platelets FLOAT,
-                BloodGlucose FLOAT,
-                HbConcentration FLOAT,
-                RespirationRate INT,
-                SleepMonitoring VARCHAR(255),
-                StepCount INT,
-                MovementData VARCHAR(255)
-                    );
-                """)
-            insert_query = f"""
-                INSERT INTO {unique_table_name} (
-                    Username, CurrentTime, Temperature, Heartbeat, SpO2, RBC, WBC, Platelets,
-                    BloodGlucose, HbConcentration, RespirationRate, SleepMonitoring, StepCount, MovementData
-                ) VALUES (
-                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
-                )
-            """
-            values = (
-               obj['Username'],  current_time, obj['Temperature'], obj['Heartbeat'], obj['SpO2'], obj['RBC'], obj['WBC'], obj['Platelets'],
-                obj['BloodGlucose'], obj['HbConcentration'], obj['RespirationRate'], obj['SleepMonitoring'],
-                obj['StepCount'], obj['MovementData']
-            )
-            cursor.execute(insert_query, values)
-            conn.commit()
-            conn.close()
-        except mysql.connector.Error as e:
-            return JsonResponse({'error': str(e)})
         all_users = SigninUser.objects.all()
         user_found = False
 
@@ -151,19 +159,16 @@ def signin(request):
                     if remember_me:
                         signer = Signer()
                         signed_username = signer.sign(username)
-                        response = HttpResponseRedirect('private_dashboard')
-                        url = reverse('private_dashboard',
-                                      args=[unique_table_name])
+                        response = HttpResponseRedirect('profile')
+                        url = reverse('profile', args=[f"user_data_{username.lower()}"])
                         response = HttpResponseRedirect(url)
-
-                        # print(url, "++_________________________________________")
 
                         response.set_cookie('remember_me', signed_username)
                         response.set_cookie('table_name', url)
 
                         return response
                     else:
-                        return render(request, 'private_dashboard.html')
+                        return render(request, 'profile.html')
                 else:
                     error_message = "Incorrect password. Please try again."
                     return render(request, 'signin.html', {'error_message': error_message})
@@ -179,11 +184,13 @@ def signin(request):
         value = table_name_cookie.strip('/').split('/')[-1]
 
         try:
-            redirect_url = f'/private_dashboard/{value}/'
+            redirect_url = f'/profile/{value}/'
             return HttpResponseRedirect(redirect_url)
         except:
             pass
     return render(request, 'signin.html')
+# <<<<<< end <<<<<<<<<<<<<<< the all sigin user checking exsistig or user creation >>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 def logout(request):
     if 'remember_me' in request.COOKIES:
@@ -226,12 +233,6 @@ def generate_auto_data(request):
             return JsonResponse({'error': 'table_name cookie not found'}, status=400)
     except mysql.connector.Error as e:
         return JsonResponse({'error': str(e)})
-
-
-
-
-
-
 
 @csrf_exempt
 def generate_and_insert_data(request):
@@ -315,35 +316,73 @@ def generate_and_insert_data(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-
-
-
-
-def print(request):
+def print_insight(request):
     return render(request, 'print_insight.html')
 
 
+def profile(request, table_name):
+    remember_me_cookie = request.COOKIES.get('remember_me')
+    if remember_me_cookie:
+        username = remember_me_cookie.split(':')[0]
+        user_value = SigninUser.objects.filter(username=username).first()
+    else:
+        user_value = None  
+
+    return render(request, 'dashboard/profile.html', {'user_value': user_value})
 
 
+def nutrient_calculator(request, table_name):
+    remember_me_cookie = request.COOKIES.get('remember_me')
+    if remember_me_cookie:
+        username = remember_me_cookie.split(':')[0]
+        user_value = SigninUser.objects.filter(username=username).first()
+    else:
+        user_value = None  
+    return render(request, 'dashboard/NutrientCalculator.html', {'user_value': user_value})
 
-# import json
-# import requests
-# from django.shortcuts import render
-# from django.http import HttpResponseServerError
+def simple_nutrition(request, table_name):
+    remember_me_cookie = request.COOKIES.get('remember_me')
+    if remember_me_cookie:
+        username = remember_me_cookie.split(':')[0]
+        user_value = SigninUser.objects.filter(username=username).first()
+        # Assuming age is a field in your SigninUser model
+        age = user_value.age
+        
+        # Check if age is a numeric value
+        try:
+            age_numeric = int(age)
+            
+            # Query the model using the numeric value
+            nutritional_data = NutritionModel.objects.filter(age_group__icontains=age_numeric).first()
+        except ValueError:
+            nutritional_data = None
+    else:
+        user_value = None  
+        nutritional_data = None
 
-# def print(request):
-#     # Make a GET request to the API URL
-#     api_url = "http://127.0.0.1:8000/generate_auto_data/"
-#     response = requests.get(api_url)
+    return render(request, 'dashboard/simple_nutrition.html', {'user_value': user_value, 'nutritional_data': nutritional_data})
 
-#     if response.status_code == 200:
 
-#         try:
-#             data = json.loads(response.text)
-#             latest_data_list = data.get("latest_data_list", [])
-#         except json.JSONDecodeError as e:
-#             return HttpResponseServerError("Error decoding JSON data: " + str(e))
-#     else:
-#         latest_data_list = []
+def required_meal(request, table_name):
+    remember_me_cookie = request.COOKIES.get('remember_me')
+    if remember_me_cookie:
+        username = remember_me_cookie.split(':')[0]
+        user_value = SigninUser.objects.filter(username=username).first()
 
-#     return render(request, "print_insight.html", {"latest_data_list": latest_data_list})
+        if user_value:
+            age = user_value.age
+
+            try:
+                age_numeric = int(age)
+
+                # Query the model using the numeric value
+                required_meal = MealInstructionModel.objects.filter(required_meal_age__icontains=age_numeric).first()
+            except ValueError:
+                required_meal = None
+        else:
+            required_meal = None
+    else:
+        user_value = None
+        required_meal = None
+
+    return render(request, 'dashboard/required_meal.html', {'user_value': user_value, 'required_meal': required_meal})

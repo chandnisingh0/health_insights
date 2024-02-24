@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from main import views
+from main import views 
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -32,10 +32,15 @@ urlpatterns = [
     path('api/generate-auto-data/', views.generate_auto_data, name='generate_auto_data'),
     path('generate_auto_data/', views.generate_auto_data, name='generate_auto_data'),
     path('api/generate_and_insert_data/', views.generate_and_insert_data, name='generate_and_insert_data'),
-    path('private_dashboard/user_tabledata&<str:table_name>/', views.private_dashboard, name='private_dashboard'),
-    # path('private_dashboard', views.private_dashboard, name='private_dashboard'),
 
-    path('print', views.print, name='print'),
+    # path('private_dashboard/user_tabledata&<str:table_name>/', views.private_dashboard, name='private_dashboard'),
+    path('profile/user_tabledata&<str:table_name>/', views.profile, name='profile'),
+    path('nutrient_calculator/user_tabledata/<str:table_name>/', views.nutrient_calculator, name='nutrient_calculator'),
+    path('simple_nutrition/user_tabledata/<str:table_name>/', views.simple_nutrition, name='simple_nutrition'),
+    path('required_meal/user_tabledata/<str:table_name>/', views.required_meal, name='required_meal'),
+
+
+    path('print_insight', views.print_insight, name='print_insight'),
     path('Contact', views.contact_view, name='Contact'),
 
     

@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'css/dashbored_all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dashbored_style.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/simple_nutrition_style.css' %}">
+
+</head>
+
+<body>
+    <div class="page d-flex">
+
+        <div class="sidebar p-20 p-relative">
+            {% if user_value %}
+            <h3 class="p-relative txt-c mt-0">{{ user_value.username }}</h3>
+            {% endif %}
+            <ul>
+                <li>
+                    <a class=" d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'profile' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'nutrient_calculator' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Nutrient Calculator</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="active d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'simple_nutrition' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Simple Nutrition</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="settings.html">
+                        <i class="fa-solid fa-gear fa-fw"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="courses.html">
+                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                        <span>Courses</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="friends.html">
+                        <i class="fa-regular fa-circle-user fa-fw"></i>
+                        <span>Friends</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="files.html">
+                        <i class="fa-regular fa-file fa-fw"></i>
+                        <span>Files</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="content w-full">
+            <!-- Start Head -->
+            <div class="head p-15 between-flex">
+                <div class="search p-relative">
+                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                </div>
+                <form action="{% url 'logout page' %}" method="post">
+                    {% csrf_token %}
+                    <button style="height: 44px;
+                    width: 110px; background-color: var(--secondary);" type="submit"><span
+                            style="color: red;"><b>Logout</b></span></button>
+                </form>
+                <div class="icons d-flex align-center">
+                    <span class="notification p-relative">
+                        <i class="fa-regular fa-bell fa-lg"></i>
+                    </span>
+                    <img src="{{ user_value.uploaded_image }}" alt="" />
+                </div>
+            </div>
+            <!-- End Head -->
+            <h1 class="p-relative">Required Meal</h1>
+
+
+            <!-- -------------------------------------------------------------------------------------- -->
+
+            <div class="menu-wrapper">
+                <header class="main-header">
+                    <div class="logo-title-box">
+                        {% if user_value %}
+
+                        <a href="#">
+                            <h1 class="brewery-title">According To Your Age : {{ user_value.age }}</h1>
+                        </a>
+                        {% endif %}
+
+                    </div>
+                </header>
+
+                <main class="main-content">
+                    <div class="hr hr-first dashed"></div>
+                    <div class="hr hr-second dashed"></div>
+                    <!-- beberages-section -->
+                    <section class="beverages-section" style="color: white;">
+                        {% if required_meal %}
+
+                        <h3 class="section-title">{{ required_meal.required_meal_age }}</h3>
+                        <div class="beverages-main-content">
+                            <img src="https://cdn.pixabay.com/photo/2016/06/10/06/00/lemonade-1447521_960_720.png"
+                                alt="Image of a Drink" class="section-main-img">
+                            <div class="beer-menu-list grid" >
+                              
+                                <div class="beer-menu-hr col-2 grid-item"></div>
+                                <div class="beer-title-description col-1 grid-item">
+                                    <p>abc</p>
+                                    <p>{{ required_meal.meal_instructions }}</p>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                    </section>
+                    <div class="hr solid hr-first"></div>
+                    <div class="hr solid hr-second"></div>
+                    <div class="hr solid hr-second"></div>
+                    <div class="hr solid hr-second"></div>
+                    <div class="hr hr-second dashed"></div>
+                    <div class="hr hr-second dashed"></div>
+            
+                </main>
+            </div>
+            <!-- partial -->
+            {% else %}
+            <p>No nutritional data available for the specified age.</p>
+            {% endif %}
+
+
+            <!-- --------------------------------------------------------------------  -->
+
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

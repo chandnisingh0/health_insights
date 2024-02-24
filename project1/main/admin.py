@@ -13,7 +13,20 @@
 from django.contrib import admin
 from .models import SigninUser
 from .models import Contact  # Update the import
+from .models import NutritionModel  # Update the import
+from .models import MealInstructionModel
+
 
 # Register your models here.
 admin.site.register(SigninUser)
-admin.site.register(Contact)  # Update the registration for the Contact model
+admin.site.register(Contact)  
+admin.site.register(NutritionModel)  
+
+
+class MealInstructionModelAdmin(admin.ModelAdmin):
+    list_display = ('required_meal_age',)
+
+admin.site.register(MealInstructionModel, MealInstructionModelAdmin)
+
+
+
