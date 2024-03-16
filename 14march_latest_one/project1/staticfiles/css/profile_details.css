@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800;900&display=swap');
+
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+} */
+
+.container_profile {
+    margin-left: -20%;
+    margin-top: -2%;
+
+  /* width: 100%; */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: #333; */
+}
+
+.card_profile {
+
+    position: relative;
+    width: 496px;
+    height: 352px;
+    background: #333;
+    transition: 0.5s;
+    
+}
+
+.card_profile:hover {
+  height: 450px;
+}
+
+.card_profile .lines {
+  position: absolute;
+  inset: 3px;
+  background: #000;
+  overflow: hidden;
+}
+
+.card_profile .lines::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 120px;
+  background: linear-gradient(transparent, #45f3ff, #45f3ff, #45f3ff, transparent);
+  animation: animate 4s linear infinite;
+}
+
+.card_profile .lines::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: #292929;
+}
+
+.card_profile .imageBox {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: #000;
+  transition: 0.5s;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.card_profile:hover .imageBox {
+  width: 250px;
+  height: 250px;
+}
+
+.card_profile .imageBox::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 150px;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(transparent, #ff3c7b, #ff3c7b, #ff3c7b, transparent);
+  animation: animate 4s linear infinite;
+}
+
+.card_profile .imageBox::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: #292929;
+}
+
+.card_profile .imageBox img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  filter: grayscale(1);
+  transition: 0.5s;
+  z-index: 1;
+}
+
+.card_profile:hover .imageBox img {
+  filter: grayscale(0);
+}
+
+
+@keyframes animate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.card_profile .content {
+  /* position: absolute; */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.card_profile .content .details {
+  margin-top: -67%;
+  width: 100%;
+  text-align: center;
+  transition: 0.5s;
+  transform: translateY(115px);
+}
+
+.card_profile:hover .content .details {
+  transform: translateY(100px);
+}
+
+.card_profile .content .details h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #45f3ff;
+  line-height: 1.2rem;
+}
+
+.card_profile .content .details h2 span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.card_profile .content .details .info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.card_profile .content .details .info h3 {
+  font-size: 1rem;
+  color: #45f3ff;
+  line-height: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.card_profile .content .details .info h3 span {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #fff;
+}
+
+.card_profile .content .details .actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px
+}
+
+.card_profile .content .details .actions button {
+  min-width: 100px;
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  background: #45f3ff;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.5s;
+}
+
+.card_profile .content .details .actions button:nth-child(2) {
+  background: #fff;
+}
+
+.card_profile .content .details .actions button:hover {
+  opacity: 1;
+}
+
+.card_profile .content .details .actions button:active {
+  opacity: 1;
+  transform: scale(0.98);
+}

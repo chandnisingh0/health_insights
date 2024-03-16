@@ -1,0 +1,384 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard_all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dashboard_style.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <style>
+        .friendbody {
+            margin: 25px auto;
+            padding: 0px;
+            background: transparent;
+            justify-content: center;
+            display: flex;
+            font-family: 'Open Sans', sans-serif;
+            color: #262626;
+            overflow-x: hidden;
+        }
+
+        .mainbox {
+            width: 414px;
+            height: auto;
+            background: transparent;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .profileTop {
+            margin: 20px 25px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .profileImg {
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            border-radius: 50px;
+        }
+
+        .profileImg img {
+            border: solid 3px #888;
+            padding: 3px;
+            width: 100px;
+            border-radius: 50px;
+        }
+
+        /* --------- */
+
+        .profileDetail {
+            padding: 0px 25px;
+            line-height: 1.3;
+            margin-top: -6px;
+            color: #f0eded;
+        }
+
+        .profileDetail p {
+            width: 50%;
+        }
+
+        .profileDetail p:last-child {
+            width: 80%;
+            font-size: 10pt;
+            margin-top: -15px !important;
+        }
+
+        /* switch */
+
+        .switch {
+            width: 40px;
+            position: relative;
+        }
+
+        .switch input[type="checkbox"] {
+            visibility: hidden;
+        }
+
+        .switch input[type="checkbox"]:checked+label {
+            background-color: #f3a978;
+        }
+
+        .switch input[type="checkbox"]:checked+label:after {
+            left: 20px;
+        }
+
+        .switch label {
+            width: 100%;
+            height: 21px;
+            border-radius: 50px;
+            background-color: #5a6676;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+
+        .switch label:after {
+            content: "";
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            transition: all 0.1s;
+        }
+
+        /* settings */
+
+        .settings {
+            color: snow;
+            background-color: transparent;
+        }
+
+        /* head, body */
+
+        .settings .hea,
+        .settings .bod {
+            padding: 16px 8px;
+        }
+
+        .settings .hea+.bod {
+            border-top: 1px solid #ccc;
+        }
+
+        /* head */
+
+        .settings .hea {
+            text-align: center;
+            position: relative;
+        }
+
+        .settings .photo {
+            font-size: 0;
+            margin-top: 20px;
+        }
+
+        .settings .photo img {
+            border-radius: 50%;
+            margin-top: 20px;
+        }
+
+        .settings .user_info {
+            margin-top: 20px;
+        }
+
+        .settings .user_info h2 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .settings .user_info small {
+            font-size: 14px;
+        }
+
+        .settings .close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1;
+        }
+
+        /* body */
+
+        .setting>dd+dd {
+            margin-top: 18px;
+        }
+
+        .setting .setting_item {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .setting .setting_item+.setting_item {
+            border-top: 1px solid #ccc;
+        }
+
+        .setting .setting_item .item_options {
+            flex-grow: 1;
+            padding: 0 8px;
+        }
+
+        .alink {
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .alink i {
+            width: 30px;
+            font-size: 30px;
+        }
+
+        .contain {
+            /* width: 49%; */
+            height: auto;
+            border-radius: 3px;
+            background-color: transparent;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            right: -34%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            overflow: hidden;
+        
+        }
+
+        .contain {
+            font: 20px/1.2 "Roboto", sans-serif;
+            color: transparent;
+        }
+
+        .blog {
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page d-flex">
+        <video autoplay loop muted width="320" height="240">
+            <source src="{% static 'dashboard.mp4' %}" type=" video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="sidebar bg-theme p-20 p-relative">
+            {% if user_value %}
+            <div>
+                <img style="width: 80px; height: 80px; margin-left: 25%;" class="rad-half mb-10"
+                    src="{{ user_value.uploaded_image.url }}" alt="{{ user_value.username }}'s Image" height="50%"
+                    width="50%">
+            </div>
+            <h3 class="p-relative txt-c mt-0">{{ user_value.username }}</h3>
+            {% endif %}
+
+            <ul>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'profile' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'nutrient_calculator' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-credit-card fa-fw"></i>
+                        <span>Nutricnt Calculater</span>
+                    </a>
+                <li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'Fitness_health' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-chart-bar fa-fw"></i>
+                        <span>Fitness & Health</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="">
+                        <i class="fa-regular fa-chart-bar fa-fw"></i>
+                        <span>Graph</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'recent_start' table_name='user_data_image' %}">
+                        <i class="fa-solid fa-diagram-project fa-fw"></i>
+                        <span>Recent Start</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="active d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'settings' table_name='user_data_image' %}">
+                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'check_benefits' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-circle-user fa-fw"></i>
+                        <span>Check Benefits</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'reports' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-file fa-fw"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="content w-full">
+            <!-- Start Head -->
+            <div class="head p-15 between-flex">
+                <h1 class="p-relative">Settings</h1>
+            </div>
+            <!-- End Head -->
+
+            <div class="contain">
+                <div class="settings">
+                    <div class="bod">
+                        <dl class="setting">
+                            <dd>
+                                <li class="setting_item">
+                                    <i class="fas fa-moon"></i>
+                                    <span class="item_options">Dark Mode</span>
+                                    <div class="switch">
+                                        <input id="dark_mode" type="checkbox" checked="checked" />
+                                        <label for="dark_mode"></label>
+                                    </div>
+                                </li>
+                                <li class="setting_item">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="item_options">Notifications</span>
+                                    <div class="switch">
+                                        <input id="notification" type="checkbox" checked="checked" />
+                                        <label for="notification"></label>
+                                    </div>
+
+                                    </span>
+                                </li>
+
+
+                                <li class="setting_item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span class="item_options">Security</span>
+                                    <span class="alink">
+                                        <i class="fas fa-angle-right"></i>
+                                    </span>
+                                </li>
+                                <li class="setting_item">
+                                    <i class="fas fa-user-friends"></i>
+                                    <span class="item_options">Contact us</span>
+                                    <span class="alink">
+                                        <i class="fas fa-angle-right"></i>
+                                    </span>
+                                </li>
+                                <li class="setting_item">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="item_options">Sign out</span>
+                                    <span class="alink">
+                                        <i class="fas fa-angle-right"></i>
+                                    </span>
+                                </li>
+                                <li class="setting_item">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="item_options">Deleat account</span>
+                                    <span class="alink">
+                                        <i class="fas fa-angle-right"></i>
+                                    </span>
+                                </li>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>

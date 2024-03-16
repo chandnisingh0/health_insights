@@ -1,0 +1,1240 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Health Insights</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <!-- Favicons -->
+  <link href="{% static 'home_img/favicon.png' %}" rel="icon">
+  <link href="{% static 'home_img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700"
+    rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="{% static 'lib/home_lib/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="{% static 'lib/home_lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/home_lib/animate/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/home_lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/home_lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'lib/home_lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link rel="stylesheet" href="{% static 'css/style_home.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/hompage_option.css' %}"> -->
+
+  <!-- =======================================================
+    Theme Name: BizPage
+    Theme URL: https://bootstrapmade.com/bizpage-bootstrap-business-template/
+    Author: BootstrapMade.com
+    License: https://bootstrapmade.com/license/
+  ======================================================= -->
+</head>
+<style>
+  .box {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .aboutbody {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .item {
+    width: 200px;
+    height: 300px;
+    list-style-type: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 30px rgba(255, 255, 255, 0.3) inset;
+    transition: transform 0.1s, left 0.75s, top 0.75s, width 0.75s, height 0.75s;
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: none;
+      border-radius: 0;
+      box-shadow: none;
+      opacity: 1;
+    }
+
+    &:nth-child(3) {
+      left: 50%;
+    }
+
+    &:nth-child(4) {
+      left: calc(50% + 220px);
+    }
+
+    &:nth-child(5) {
+      left: calc(50% + 440px);
+    }
+
+    &:nth-child(6) {
+      left: calc(50% + 660px);
+      opacity: 0;
+    }
+  }
+
+  .content {
+    width: min(30vw, 400px);
+    position: absolute;
+    top: 50%;
+    left: 3rem;
+    transform: translateY(-50%);
+    font: 400 0.85rem helvetica, sans-serif;
+    color: white;
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    display: none;
+
+    & .title {
+      font-family: 'arial-black';
+      text-transform: uppercase;
+    }
+
+    & .description {
+      line-height: 1.7;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.8rem;
+    }
+
+    & button {
+      width: fit-content;
+      background-color: rgba(0, 0, 0, 0.1);
+      color: white;
+      border: 2px solid white;
+      border-radius: 0.25rem;
+      padding: 0.75rem;
+      cursor: pointer;
+    }
+  }
+
+  .item:nth-of-type(2) .content {
+    display: block;
+    animation: show 0.75s ease-in-out 0.3s forwards;
+  }
+
+  @keyframes show {
+    0% {
+      filter: blur(5px);
+      transform: translateY(calc(-50% + 75px));
+    }
+
+    100% {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .nav {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    user-select: none;
+
+    & .btn {
+      background-color: rgba(255, 255, 255, 0.5);
+      color: rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(0, 0, 0, 0.6);
+      margin: 0 0.25rem;
+      padding: 0.75rem;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+
+  @media (width > 650px) and (width < 900px) {
+    .content {
+      & .title {
+        font-size: 1rem;
+      }
+
+      & .description {
+        font-size: 0.7rem;
+      }
+
+      & button {
+        font-size: 0.7rem;
+      }
+    }
+
+    .item {
+      width: 160px;
+      height: 270px;
+
+      &:nth-child(3) {
+        left: 50%;
+      }
+
+      &:nth-child(4) {
+        left: calc(50% + 170px);
+      }
+
+      &:nth-child(5) {
+        left: calc(50% + 340px);
+      }
+
+      &:nth-child(6) {
+        left: calc(50% + 510px);
+        opacity: 0;
+      }
+    }
+  }
+
+  @media (width < 650px) {
+    .content {
+      & .title {
+        font-size: 0.9rem;
+      }
+
+      & .description {
+        font-size: 0.65rem;
+      }
+
+      & button {
+        font-size: 0.7rem;
+      }
+    }
+
+    .item {
+      width: 130px;
+      height: 220px;
+
+      &:nth-child(3) {
+        left: 50%;
+      }
+
+      &:nth-child(4) {
+        left: calc(50% + 140px);
+      }
+
+      &:nth-child(5) {
+        left: calc(50% + 280px);
+      }
+
+      &:nth-child(6) {
+        left: calc(50% + 420px);
+        opacity: 0;
+      }
+    }
+  }
+</style>
+
+<body>
+
+  <!--==========================
+    Header
+  ============================-->
+  <header id="header">
+    <div class="container-fluid">
+
+      <div id="logo" class="pull-left">
+        <h1><a href="#intro" class="scrollto">Health Insights</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="#intro"><img src="img/logo.png" alt="" title="" /></a>-->
+      </div>
+
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a href="#intro">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#team">Team</a></li>
+          <li class="menu-has-children"><a href="">Drop Down</a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="#">Drop Down 5</a></li>
+            </ul>
+          </li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav><!-- #nav-menu-container -->
+    </div>
+  </header><!-- #header -->
+
+  <!--==========================
+    Intro Section
+  ============================-->
+  <section id="intro">
+    <div class="intro-container">
+      <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
+
+        <ol class="carousel-indicators"></ol>
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active" style="background-image: url('img/intro-carousel/1.jpg');">
+            <!-- <div class="carousel-item active" style="background-image: url('{% static 'img/intro-carousel/1.jpg' %}');"> -->
+
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>Empower Your Health Journey</h2>
+                <p>"Unlock the full potential of your health with our advanced sensor technology. Dive deep into your
+                  health data and start your journey towards optimal well-being today!"</p>
+                <a href="video.html" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('img/intro-carousel/2.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>Precision Health Insights</h2>
+                <p>Get personalized health insights like never before. Our sophisticated analysis tools help you
+                  understand your body's needs, guiding you to a healthier you.</p>
+                <a href="video.html" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('img/intro-carousel/3.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>Actionable Data, Healthier Decisions</h2>
+                <p>Transform data into action! Our intuitive platform suggests practical steps to improve your health
+                  records, making healthy living easier than ever.</p>
+                <a href="video.html" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('img/intro-carousel/4.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2>Your Health, Our Priority</h2>
+                <p>We're dedicated to helping you achieve your health goals. With real-time monitoring and personalized
+                  feedback, your path to improved health is clearer than ever.</p>
+                <a href="video.html" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item" style="background-image: url('img/intro-carousel/5.jpg');">
+            <div class="carousel-container">
+              <div class="carousel-content">
+                <h2> Elevate Your Well-being</h2>
+                <p>Join a community committed to better health. Benefit from our cutting-edge sensor technology and
+                  expert analysis to elevate your well-being to new heights.</p>
+                <a href="video.html" class="btn-get-started scrollto">Get Started</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+
+        <a class="carousel-control-next" href="#introCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+
+      </div>
+    </div>
+  </section><!-- #intro -->
+
+  <main id="main">
+
+    <!--==========================
+      Featured Services Section
+    ============================-->
+    <section id="featured-services">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 box">
+            <i class="ion-ios-bookmarks-outline"></i>
+            <h4 class="title"><a href="">Advanced Sensor Technology for In-Depth Health Analysis</a></h4>
+            <p class="description">Our website leverages the latest in sensor technology to offer users a comprehensive
+              analysis of their health data. </p>
+          </div>
+
+          <div class="col-lg-4 box box-bg">
+            <i class="ion-ios-stopwatch-outline"></i>
+            <h4 class="title"><a href="">Personalized Health Insights and Recommendations</a></h4>
+            <p class="description">Tailored health recommendations based on detailed data analysis for optimized
+              well-being.</p>
+          </div>
+
+          <div class="col-lg-4 box">
+            <i class="ion-ios-heart-outline"></i>
+            <h4 class="title"><a href="">Health Forecasting Unveiled</a></h4>
+            <p class="description">Our platform offers a suite of revolutionary features designed to predict, improve,
+              and transform your health future.</p>
+          </div>
+
+        </div>
+      </div>
+    </section><!-- #featured-services -->
+
+    <!--==========================
+      About Us Section
+    ============================-->
+    <!-- #about -->
+    <section id="about">
+      <div class="container">
+
+        <header class="section-header">
+          <h3>About Us</h3>
+          <p>At the core of our mission lies a commitment to revolutionizing personal health through advanced sensor
+            technology and detailed data analysis. We empower individuals with personalized, actionable insights to
+            enhance their well-being and achieve optimized health outcomes.</p>
+        </header>
+        <section id="about">
+          <div class="container">
+            <div class="box">
+              <div class="aboutbody">
+
+                <main>
+                  <ul class='slider'>
+                    <li class='item'
+                      style="background-image: url('https://cdn.mos.cms.futurecdn.net/dP3N4qnEZ4tCTCLq59iysd.jpg')">
+                      <div class='content'>
+                        <h2 class='title'>"Our Mission"</h2>
+                        <p class='description'> To transform personal health management by leveraging cutting-edge
+                          sensor technology and comprehensive data analysis, providing individuals with personalized
+                          insights and actionable guidance to improve their well-being and achieve optimal health
+                          outcomes. </p>
+                        <button>Read More</button>
+                      </div>
+                    </li>
+                    <li class='item' style="background-image: url('https://i.redd.it/tc0aqpv92pn21.jpg')">
+                      <div class='content'>
+                        <h2 class='title'>"Our Plan"</h2>
+                        <p class='description'> To continuously innovate and expand our sensor technology and data
+                          analysis capabilities, making health monitoring more accessible, and effective and easy to
+                          maintain. We aim to empower users to create a supportive community focused on shared health
+                          goals. </p>
+                        <button>Read More</button>
+                      </div>
+                    </li>
+                    <li class='item'
+                      style="background-image: url('https://wharferj.files.wordpress.com/2015/11/bio_north.jpg')">
+                      <div class='content'>
+                        <h2 class='title'>"Our Vision"</h2>
+                        <p class='description'> Our vision is to lead the future of health management, where every
+                          individual has the knowledge and tools at their fingertips to make informed health decisions.
+                          We envision a world where personalized health insights enhances the quality of life for people
+                          everywhere. </p>
+                        <button>Read More</button>
+                      </div>
+                    </li>
+                    <li class='item' style="background-image: url('https://images7.alphacoders.com/878/878663.jpg')">
+                      <div class='content'>
+                        <h2 class='title'>"Core Values"</h2>
+                        <p class='description'>
+                          Our core values are the heartbeat of our mission, guiding every decision we make and action we
+                          take. We believe in integrity, innovation, and inclusivity, ensuring that every step we take
+                          brings us closer to a healthier world for everyone.
+                        </p>
+                        <button>Read More</button>
+                      </div>
+                    </li>
+                    <li class='item'
+                      style="background-image: url('https://theawesomer.com/photos/2017/07/simon_stalenhag_the_electric_state_6.jpg')">
+                      <div class='content'>
+                        <h2 class='title'>"Building Our Legacy"</h2>
+                        <p class='description'>
+                          Crafting Our Digital Path" traces our journey from foundational values to the impactful
+                          milestones that define our website today. It encapsulates our commitment to transforming
+                          insightful health data into actionable guidance for our users, marking key achievements in our
+                          quest to empower healthier lives through technology.
+                        </p>
+                        <button>Read More</button>
+                      </div>
+                    </li>
+                    <li class='item'
+                      style="background-image: url('https://da.se/app/uploads/2015/09/simon-december1994.jpg')">
+                      <div class='content'>
+                        <h2 class='title'>"Our History"</h2>
+                        <p class='description'> Founded in 2023 by a group of health enthusiasts and tech innovators,
+                          our journey began with a simple yet profound question: How can we leverage technology to make
+                          health insights accessible to all? From our humble beginnings to overcoming challenges and
+                          celebrating milestones, our journey is a testament to the power of perseverance, innovation,
+                          and community support in making a meaningful impact. </p>
+                        <button>Read More</button>
+                      </div>
+                    </li>
+                  </ul>
+                  <nav class='nav'>
+                    <ion-icon class='btn prev' name="arrow-back-outline"></ion-icon>
+                    <ion-icon class='btn next' name="arrow-forward-outline"></ion-icon>
+                  </nav>
+                </main>
+              </div>
+            </div>
+          </div>
+        </section>
+        <script>
+          const slider = document.querySelector('.slider');
+
+          function activate(e) {
+            const items = document.querySelectorAll('.item');
+            e.target.matches('.next') && slider.append(items[0])
+            e.target.matches('.prev') && slider.prepend(items[items.length - 1]);
+          }
+
+          document.addEventListener('click', activate, false);
+        </script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+        <!--==========================
+      Services Section
+    ============================-->
+        <section id="services">
+          <div class="container">
+
+            <header class="section-header wow fadeInUp">
+              <h3>Services</h3>
+              <p>We offer comprehensive health monitoring services, utilizing advanced sensor technology to provide
+                real-time, personalized health insights and actionable recommendations. Our platform is designed to
+                guide users towards improved health outcomes through detailed data analysis and tailored health advice.
+              </p>
+            </header>
+
+            <div class="row">
+
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-analytics-outline"></i></div>
+                <h4 class="title"><a href="">Heart Rate</a></h4>
+                <p class="description">Your heart rate is the number of times your heart beats per minute.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-paper-outline"></i></div>
+                <h4 class="title"><a href="">Blood Oxygen</a></h4>
+                <p class="description">When you inhale oxygen, it goes to your bloodstream through your lungs. This
+                  amount of oxygen present in your blood is called blood oxygen level.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-bookmarks-outline"></i></div>
+                <h4 class="title"><a href="">Sleep</a></h4>
+                <p class="description">An average adult should get atleast 7-9 hours of sleep.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-speedometer-outline"></i></div>
+                <h4 class="title"><a href="">Stress</a></h4>
+                <p class="description">Stress, in the context of health, refers to the body's response to physical,
+                  emotional, or psychological challenges or demands.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-barcode-outline"></i></div>
+                <h4 class="title"><a href="">Steps</a></h4>
+                <p class="description">Steps refer to the number of individual movements taken by a person while walking
+                  or running. An average person should take atleast 10000 steps a day.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-people-outline"></i></div>
+                <h4 class="title"><a href="">Distance</a></h4>
+                <p class="description">Distance refers to the extent or amount of space between two points, typically
+                  measured in units such as meters, kilometers, miles, or feet. </p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-analytics-outline"></i></div>
+                <h4 class="title"><a href="">Blood Glucose Level</a></h4>
+                <p class="description">Blood glucose level refers to the concentration of glucose (sugar) present in the
+                  bloodstream at any given time.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-paper-outline"></i></div>
+                <h4 class="title"><a href="">Oxygen Saturation</a></h4>
+                <p class="description">Oxygen saturation, often abbreviated as SpO2, is a measure of the percentage of
+                  hemoglobin in the blood that is saturated with oxygen.</p>
+              </div>
+              <div class="col-lg-4 col-md-6 box wow bounceInUp" data-wow-duration="1.4s">
+                <div class="icon"><i class="ion-ios-analytics-outline"></i></div>
+                <h4 class="title"><a href="">Breath Rate</a></h4>
+                <p class="description">Breathing rate, also known as respiratory rate or ventilation rate, refers to the
+                  number of breaths taken per minute.</p>
+              </div>
+            </div>
+
+          </div>
+        </section><!-- #services -->
+
+        <!--==========================
+      Call To Action Section
+    ============================-->
+        <section id="call-to-action" class="wow fadeIn">
+          <div class="container text-center">
+            <h3>Call To Action</h3>
+            <p> Empower Your Health Today: Take the Leap Towards Personalized Wellness!</p>
+            <a class="cta-btn" href="sampleform_index.html">Call To Action</a>
+          </div>
+        </section><!-- #call-to-action -->
+
+        <!--==========================
+      Skills Section
+    ============================-->
+        <section id="skills">
+          <div class="container">
+
+            <header class="section-header">
+              <h3>Our Skills</h3>
+              <p>Our skills lie in the seamless fusion of advanced data analytics and cutting-edge sensor technology,
+                tailored to deliver personalized health insights and support, all wrapped in a user-centric design for
+                the ultimate in intuitive health management.</p>
+            </header>
+
+            <div class="skills-content">
+
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                  aria-valuemax="100">
+                  <span class="skill">Data Analysis <i class="val">100%</i></span>
+                </div>
+              </div>
+
+              <div class="progress">
+                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                  aria-valuemax="100">
+                  <span class="skill">Sensor Technology Integration <i class="val">90%</i></span>
+                </div>
+              </div>
+
+              <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                  aria-valuemax="100">
+                  <span class="skill">Personalized Health Guidance <i class="val">75%</i></span>
+                </div>
+              </div>
+
+              <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="55" aria-valuemin="0"
+                  aria-valuemax="100">
+                  <span class="skill">User Centric Design & Support <i class="val">55%</i></span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        <!--==========================
+      Facts Section
+    ============================-->
+        <section id="facts" class="wow fadeIn">
+          <div class="container">
+
+            <header class="section-header">
+              <h3>Facts</h3>
+              <p>Did you know? Individuals who actively monitor their health with advanced sensor technology and
+                personalized insights can improve their health outcomes by up to 40%, fostering a proactive approach to
+                wellness and disease prevention.</p>
+            </header>
+
+            <div class="row counters">
+
+              <div class="col-lg-3 col-6 text-center">
+                <span data-toggle="counter-up">2,784</span>
+                <p>Hours of work</p>
+              </div>
+
+              <div class="col-lg-3 col-6 text-center">
+                <span data-toggle="counter-up">365</span>
+                <p>Days of availability</p>
+              </div>
+
+              <div class="col-lg-3 col-6 text-center">
+                <span data-toggle="counter-up">24</span>
+                <p>Hours Of Support</p>
+              </div>
+
+              <div class="col-lg-3 col-6 text-center">
+                <span data-toggle="counter-up">4</span>
+                <p>Hard Workers</p>
+              </div>
+
+            </div>
+
+            <div class="facts-img">
+              <img src="{% static 'home_img/facts-img.png' %}" alt="" class="img-fluid">
+            </div>
+
+          </div>
+        </section><!-- #facts -->
+
+        <!--==========================
+      Portfolio Section
+    ============================-->
+        <section id="portfolio" class="section-bg">
+          <div class="container">
+
+            <header class="section-header">
+              <h3 class="section-title">Our Portfolio</h3>
+            </header>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <ul id="portfolio-flters">
+                  <li data-filter="*" class="filter-active">All</li>
+                  <li data-filter=".filter-app">Biometric Health Metrics</li>
+                  <li data-filter=".filter-card">Behavioral Health Insights</li>
+                  <li data-filter=".filter-web">Dietary & Nutrition</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row portfolio-container">
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/app1.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/app1.jpg" data-lightbox="portfolio" data-title="App 1" class="link-preview"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Heart Rate</a></h4>
+                    <p>Biometric Health Metrics</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/web3.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/web3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 3"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Sleep</a></h4>
+                    <p>Behavioral Health Insights</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/app2.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/app2.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 2"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Blood Oxygen</a></h4>
+                    <p>Biometric Health Metrics</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/card2.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/card2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 2"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Stress</a></h4>
+                    <p>Behavioral Health Insights</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/web2.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/web2.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 2"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Steps</a></h4>
+                    <p>Biometric Health Metrics</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/app3.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/app3.jpg" class="link-preview" data-lightbox="portfolio" data-title="App 3"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Distance</a></h4>
+                    <p>Biometric Health Metrics</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/card1.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/card1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 1"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Body Temperature</a></h4>
+                    <p>Biometric Health Metrics</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-card wow fadeInUp" data-wow-delay="0.1s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/card3.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/card3.jpg" class="link-preview" data-lightbox="portfolio" data-title="Card 3"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Calories</a></h4>
+                    <p>Dietary & Nutrition</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.2s">
+                <div class="portfolio-wrap">
+                  <figure>
+                    <img src="img/portfolio/web1.jpg" class="img-fluid" alt="">
+                    <a href="img/portfolio/web1.jpg" class="link-preview" data-lightbox="portfolio" data-title="Web 1"
+                      title="Preview"><i class="ion ion-eye"></i></a>
+                    <a href="#" class="link-details" title="More Details"><i class="ion ion-android-open"></i></a>
+                  </figure>
+
+                  <div class="portfolio-info">
+                    <h4><a href="#">Physical Activities</a></h4>
+                    <p>Biometric Health Metrics</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section><!-- #portfolio -->
+
+        <!--==========================
+      Clients Section
+    ============================-->
+        <section id="clients" class="wow fadeInUp">
+          <div class="container">
+
+            <header class="section-header">
+              <h3>Our Clients</h3>
+            </header>
+
+            <div class="owl-carousel clients-carousel">
+              <img src="img/clients/client-1.png" alt="">
+              <img src="img/clients/client-2.png" alt="">
+              <img src="img/clients/client-3.png" alt="">
+              <img src="img/clients/client-4.png" alt="">
+              <img src="img/clients/client-5.png" alt="">
+              <img src="img/clients/client-6.png" alt="">
+              <img src="img/clients/client-7.png" alt="">
+              <img src="img/clients/client-8.png" alt="">
+            </div>
+
+          </div>
+        </section><!-- #clients -->
+
+        <!--==========================
+      Clients Section
+    ============================-->
+        <section id="testimonials" class="section-bg wow fadeInUp">
+          <div class="container">
+
+            <header class="section-header">
+              <h3>Testimonials</h3>
+            </header>
+
+            <div class="owl-carousel testimonials-carousel">
+
+              <div class="testimonial-item">
+                <img src="img/testimonial-1.jpg" class="testimonial-img" alt="">
+                <h3>Dr. Rajnikant Dave</h3>
+                <h4>MD Medicine&amp; Health Consultant</h4>
+                <p>
+                  <img src="img/quote-sign-left.png" class="quote-sign-left" alt="">
+                  As a physician, I've seen firsthand the impact of informed health decisions. Health Insights provides
+                  invaluable insights to patients, empowering them to take charge of their well-being like never before.
+                  <img src="img/quote-sign-right.png" class="quote-sign-right" alt="">
+                </p>
+              </div>
+
+              <div class="testimonial-item">
+                <img src="img/testimonial-2.jpg" class="testimonial-img" alt="">
+                <h3>Subhash Chandra</h3>
+                <h4>Cardiologist</h4>
+                <p>
+                  <img src="img/quote-sign-left.png" class="quote-sign-left" alt="">
+                  From tracking cardiac health to managing stress levels, Health Insights offers a comprehensive
+                  approach to personalized health management. I recommend it to all my patients seeking proactive
+                  solutions.
+                  <img src="img/quote-sign-right.png" class="quote-sign-right" alt="">
+                </p>
+              </div>
+
+              <div class="testimonial-item">
+                <img src="img/testimonial-3.jpg" class="testimonial-img" alt="">
+                <h3>Dr. Agni Kumar Bose</h3>
+                <h4>Dermatologist</h4>
+                <p>
+                  <img src="img/quote-sign-left.png" class="quote-sign-left" alt="">
+                  I'm impressed by Health Insight's ability to translate complex health data into actionable insights.
+                  It's a game-changer for preventive care, allowing patients to stay ahead of potential health issues.
+                  <img src="img/quote-sign-right.png" class="quote-sign-right" alt="">
+                </p>
+              </div>
+
+              <div class="testimonial-item">
+                <img src="img/testimonial-4.jpg" class="testimonial-img" alt="">
+                <h3>Dr. Tanya Narendra</h3>
+                <h4>Gynecologist</h4>
+                <p>
+                  <img src="img/quote-sign-left.png" class="quote-sign-left" alt="">
+                  Managing blood glucose levels is essential for diabetes management. [Your Website Name] provides
+                  valuable tools and recommendations to help patients maintain optimal control, improving their quality
+                  of life.
+                  <img src="img/quote-sign-right.png" class="quote-sign-right" alt="">
+                </p>
+              </div>
+
+              <div class="testimonial-item">
+                <img src="img/testimonial-5.jpg" class="testimonial-img" alt="">
+                <h3>Dr. Arvind Shenoi</h3>
+                <h4>Pediatrician</h4>
+                <p>
+                  <img src="img/quote-sign-left.png" class="quote-sign-left" alt="">
+                  As a pediatrician, I believe in starting healthy habits early. [Your Website Name] offers practical
+                  guidance for parents to monitor their children's health, ensuring a solid foundation for lifelong
+                  wellness
+                  <img src="img/quote-sign-right.png" class="quote-sign-right" alt="">
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+        </section><!-- #testimonials -->
+
+        <!--==========================
+      Team Section
+    ============================-->
+        <section id="team">
+          <div class="container">
+            <div class="section-header wow fadeInUp">
+              <h3>Team</h3>
+              <p>Meet Our Core Team: A dynamic quartet of visionaries and experts, each bringing a unique blend of
+                passion, innovation, and expertise to revolutionize personal health management. Together, they embody
+                the spirit of our mission, driving us forward with their dedication to making personalized health
+                insights accessible to all.</p>
+            </div>
+
+            <div class="row">
+
+              <div class="col-lg-3 col-md-6 wow fadeInUp">
+                <div class="member">
+                  <img src="img/team-1.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Chandni Singh</h4>
+                      <span>The Visionary Leader</span>
+                      <div class="social">
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="member">
+                  <img src="img/team-2.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Mahek Sheth</h4>
+                      <span>The Data Alchemist</span>
+                      <div class="social">
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="member">
+                  <img src="img/team-3.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Khyati Singh</h4>
+                      <span>The Wellness Navigator</span>
+                      <div class="social">
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="member">
+                  <img src="img/team-4.jpg" class="img-fluid" alt="">
+                  <div class="member-info">
+                    <div class="member-info-content">
+                      <h4>Roshni Singh</h4>
+                      <span>The User Advocate</span>
+                      <div class="social">
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-google-plus"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section><!-- #team -->
+
+        <!--==========================
+      Contact Section
+    ============================-->
+        <section id="contact" class="section-bg wow fadeInUp">
+          <div class="container">
+
+            <div class="section-header">
+              <h3>Contact Us</h3>
+              <p>Let's Transform Your Health Journey Together - Reach Out and Take the First Step Towards a Brighter,
+                Healthier Tomorrow.
+                Find The Best Healthcare Units With Best Facilities And Experts That Suits You The Best
+                <a class="cta-btn" href="map.html">Click Here</a>
+              </p>
+            </div>
+
+            <div class="row contact-info">
+
+              <div class="col-md-4">
+                <div class="contact-address">
+                  <i class="ion-ios-location-outline"></i>
+                  <h3>Address</h3>
+                  <address>A108 Adam Street, NY 535022, USA</address>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="contact-phone">
+                  <i class="ion-ios-telephone-outline"></i>
+                  <h3>Phone Number</h3>
+                  <p><a href="tel:+155895548855">+1 5589 55488 55</a></p>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="contact-email">
+                  <i class="ion-ios-email-outline"></i>
+                  <h3>Email</h3>
+                  <p><a href="mailto:info@example.com">info@example.com</a></p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="form">
+              <div id="sendmessage">Your message has been sent. Thank you!</div>
+              <div id="errormessage"></div>
+              <form action="" method="post" role="form" class="contactForm">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
+                      data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validation"></div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                      data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validation"></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
+                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <div class="validation"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" rows="5" data-rule="required"
+                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <div class="validation"></div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+              </form>
+            </div>
+
+          </div>
+        </section><!-- #contact -->
+
+  </main>
+
+  <!--==========================
+    Footer
+  ============================-->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-info">
+            <h3>Health Insights</h3>
+            <p>Cultivating Healthier Futures Through Innovative Technology and Personalized Care, Where Every Click
+              Paves the Way to a More Vibrant and Fulfilling Life. Join Us on the Journey Towards Optimal Wellness</p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="ion-ios-arrow-right"></i> <a href="#">Home</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="#">About us</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="#">Services</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="tos.html">Terms of service</a></li>
+              <li><i class="ion-ios-arrow-right"></i> <a href="pp.html">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h4>Contact Us</h4>
+            <p>
+              A108 Adam Street <br>
+              New York, NY 535022<br>
+              United States <br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+            </div>
+
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p>Unlock a World of Health Wisdom - Sign up for our Newsletter and Dive into a Treasure Trove of Exclusive
+              Health Insights, Expert Tips, Latest Trends, and Special Offers, Delivered Right to Your Inbox.</p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Health Insights</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!--
+          All the links in the footer should remain intact.
+          You can delete the links only if you purchased the pro version.
+          Licensing information: https://bootstrapmade.com/license/
+          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=BizPage
+        -->
+
+      </div>
+    </div>
+  </footer><!-- #footer -->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- JavaScript Libraries -->
+  <script src="{% static 'lib/home_lib/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/jquery/jquery-migrate.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/easing/easing.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/superfish/hoverIntent.js' %}"></script>
+  <script src="{% static 'lib/home_lib/superfish/superfish.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/wow/wow.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/waypoints/waypoints.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/owlcarousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/isotope/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/lightbox/js/lightbox.min.js' %}"></script>
+  <script src="{% static 'lib/home_lib/touchSwipe/jquery.touchSwipe.min.js' %}"></script>
+  <!-- Contact Form JavaScript File -->
+  <script src="contactform/contactform.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="{% static 'js/home.js' %}"></script>
+
+</body>
+
+</html>

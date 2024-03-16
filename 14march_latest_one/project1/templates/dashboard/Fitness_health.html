@@ -1,0 +1,847 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard_all.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/dashboard_style.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Sansita+One);
+        /* CUT FROM HERE */
+
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+        * {
+            box-sizing: border-box;
+            outline: 0;
+        }
+
+        .fitbody {
+            background: transparent;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 100%;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .accordion {
+            background-color: transparent;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: 5px 5px 5px rgba(250, 248, 248, 0.884);
+        }
+
+        .accordion-header {
+            border: none;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: transparent;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .accordion-header span {
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .accordion-body {
+            color: whitesmoke;
+            font-size: 14px;
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            transition: opacity .3s
+        }
+
+        .accordion-body.active {
+            height: 100%;
+            opacity: 1;
+            padding: 5px;
+        }
+
+        .arrow {
+            transition: transform .2s linear;
+            color: white;
+            background-color: red;
+        }
+
+        .accordion:has(.active) .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* < !-------------------------------------------------------------------> */
+        li {
+            transition: all 0.5s ease;
+            -webkit-transition: all 0.5s ease;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        nav {
+            width: 100%;
+            height: auto;
+            float: left;
+            position: relative;
+            background: transparent;
+            margin: 10px auto;
+            padding: 10px 0;
+            color: white;
+            line-height: 30px;
+            border-radius: 5px;
+            box-shadow: -2px 1px 3px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        nav ul li {
+            position: relative;
+            padding: 20px 20px;
+            font-size: 100%;
+        }
+
+        nav ul li:hover {
+            background: red;
+            border-left: 5px solid red;
+        }
+
+        nav ul li:hover:before {
+            content: '';
+            border-color: transparent;
+            right: 0;
+            border-width: 10px;
+            position: absolute;
+            border-style: solid;
+            top: 5px;
+        }
+
+        /* TO HERE */
+
+        .wrapper {
+            width: 450px;
+            margin: 80px auto;
+        }
+
+        header {
+            width: 100%;
+            height: 140px;
+            padding-top: 45px;
+            float: left;
+            font-family: 'Sansita One';
+            font-weight: 400;
+            font-size: 28px;
+            text-align: center;
+            color: red;
+            line-height: 28px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        header p {
+            font-size: 15px;
+            line-height: 15px;
+            margin-left: 70px;
+        }
+
+        footer {
+            width: 100%;
+            height: 50px;
+            float: left;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        footer>p {
+            line-height: 40px;
+            vertical-align: middle;
+            color: #333;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        footer a:link,
+        footer a:visited,
+        footer a:active {
+            color: red;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            width: 100%;
+            color: white;
+            background: red;
+        }
+
+        .active:before {
+            content: '';
+            border-color: transparent;
+            right: 0;
+            border-width: 10px;
+            position: absolute;
+            border-style: solid;
+            top: 5px;
+        }
+
+
+        .accordion-header li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accordion-header li img {
+            margin-right: 10px;
+            /* Adjust as needed */
+        }
+    </style>
+    <!----------------------------------------------------------------------------------------------------------->
+    <script>
+        $('nav li').hover(function () {
+            $('nav li:first-child').toggleClass("active");
+        });
+    </script>
+</head>
+
+<body>
+    <div class="page d-flex">
+        <video autoplay loop muted width="320" height="240">
+            <source src="{% static 'dashboard.mp4' %}" type=" video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="sidebar bg-theme p-20 p-relative">
+            {% if user_value %}
+            <div>
+                <img style="width: 80px; height: 80px; margin-left: 25%;" class="rad-half mb-10"
+                    src="{{ user_value.uploaded_image.url }}" alt="{{ user_value.username }}'s Image" height="50%"
+                    width="50%">
+            </div>
+            <h3 class="p-relative txt-c mt-0">{{ user_value.username }}</h3>
+            {% endif %}
+
+            <ul>
+                <li>
+                    <a class=" d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'profile' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'nutrient_calculator' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-credit-card fa-fw"></i>
+                        <span>Nutricnt Calculater</span>
+                    </a>
+                <li>
+                <li>
+                    <a class="active d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'Fitness_health' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-chart-bar fa-fw"></i>
+                        <span>Fitness & Health</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="">
+                        <i class="fa-regular fa-chart-bar fa-fw"></i>
+                        <span>Graph</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'recent_start' table_name='user_data_image' %}">
+                        <i class="fa-solid fa-diagram-project fa-fw"></i>
+                        <span>Recent Start</span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'settings' table_name='user_data_image' %}">
+                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'check_benefits' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-circle-user fa-fw"></i>
+                        <span>Check Benefits</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10"
+                        href="{% url 'reports' table_name='user_data_image' %}">
+                        <i class="fa-regular fa-file fa-fw"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="content w-full">
+            <!-- Start Head -->
+            <div class="head p-15 between-flex">
+                <h1 class="p-relative">Fitness & Health</h1>
+            </div>
+            <!-- End Head -->
+
+            <!-- End Head -->
+            <div class="fitbody">
+                <div class="container">
+                    <div class="profile-page m-20">
+                        <nav role='navigation'>
+                            <ul>
+
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li class="active">
+                                                <img src="{% static 'img\dashboard\heart.jpg' %}" alt="" height="50px"
+                                                    width="50px" />
+                                                <a href="#">Heart Rate</a>
+                                            </li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Heart rate refers to the number of times the
+                                            heart beats per minute (bpm), representing the frequency of cardiac
+                                            contractions. It's a crucial indicator of cardiovascular health and overall
+                                            fitness level.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Heart rate is influenced by factors such as
+                                            age, fitness level, stress, and physical activity. Monitoring heart rate can
+                                            help assess exercise intensity, track fitness progress, detect
+                                            abnormalities, and manage health conditions like hypertension or
+                                            arrhythmias.</p>
+                                        <br>
+                                        <p><strong>Normal Range:</strong> Resting heart rate typically ranges between 60
+                                            to 100 bpm for adults, with lower rates indicating better cardiovascular
+                                            efficiency. However, individual variations exist, and deviations from the
+                                            normal range may require medical attention, either due to being too high
+                                            (tachycardia) or too low (bradycardia).</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\distance.png' %}" alt=""
+                                                    height="50px" width="50px" ; /><a href="#"> Blood Pressure</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Blood pressure refers to the force exerted by
+                                            circulating blood against the walls of blood vessels, particularly arteries.
+                                            It is measured in millimeters of mercury (mmHg) and consists of two values:
+                                            systolic pressure (the pressure during heartbeats) and diastolic pressure
+                                            (the pressure between heartbeats).</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Blood pressure is a vital indicator of
+                                            cardiovascular health and overall well-being. Normal blood pressure
+                                            maintains adequate blood flow to vital organs, while high blood pressure
+                                            (hypertension) can strain the heart and blood vessels, leading to an
+                                            increased risk of heart disease, stroke, and other complications. Low blood
+                                            pressure (hypotension) can cause dizziness, fainting, and insufficient blood
+                                            flow to organs.</p>
+                                        <br>
+                                        <p><strong>Measurement:</strong> Blood pressure is typically measured using a
+                                            sphygmomanometer, which consists of an inflatable cuff and a pressure gauge.
+                                            The measurement is expressed as systolic pressure over diastolic pressure,
+                                            with normal values typically around 120/80 mmHg. Blood pressure can
+                                            fluctuate throughout the day and may be influenced by factors such as
+                                            stress, physical activity, and medication.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\distance.png' %}" alt=""
+                                                    height="50px" width="50px" ; /><a href="#"> Body Temperature</a>
+                                            </li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Body temperature refers to the internal
+                                            temperature of the human body, typically measured in degrees Fahrenheit (°F)
+                                            or Celsius (°C). It is a crucial indicator of health and homeostasis,
+                                            reflecting the balance between heat production and heat loss within the
+                                            body.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Maintaining a stable body temperature is
+                                            essential for the proper functioning of physiological processes. The normal
+                                            range of body temperature varies slightly among individuals but is generally
+                                            around 98.6°F (37°C) when measured orally. Deviations from this range may
+                                            indicate underlying health conditions, such as fever (elevated body
+                                            temperature in response to infection or illness) or hypothermia (dangerously
+                                            low body temperature).</p>
+                                        <br>
+                                        <p><strong>Measurement:</strong> Body temperature can be measured using various
+                                            methods, including oral, rectal, tympanic (ear), and axillary (armpit)
+                                            thermometers. The method of measurement may affect the recorded temperature,
+                                            with rectal measurements typically being the most accurate. Body temperature
+                                            can also be influenced by factors such as time of day, physical activity,
+                                            environmental temperature, and hormonal fluctuations.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\distance.png' %}" alt=""
+                                                    height="50px" width="50px" ; /><a href="#"> Movement</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Movement refers to the act of changing physical
+                                            position or location, typically involving the coordination of muscles and
+                                            skeletal structures. It encompasses various types of motions, including
+                                            walking, running, jumping, bending, stretching, and gesturing.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Movement is essential for human functioning
+                                            and is integral to activities of daily living, physical fitness, and overall
+                                            well-being. Regular physical activity and movement contribute to the
+                                            maintenance of muscle strength, flexibility, cardiovascular health, bone
+                                            density, and mental well-being. Sedentary behavior, characterized by
+                                            prolonged sitting or inactivity, is associated with numerous health risks,
+                                            including obesity, cardiovascular disease, and musculoskeletal problems.</p>
+                                        <br>
+                                        <p><strong>Benefits:</strong> Incorporating regular movement and physical
+                                            activity into daily routines offers numerous benefits, including improved
+                                            physical fitness, enhanced mood and cognitive function, stress relief,
+                                            better sleep quality, and a reduced risk of chronic diseases such as
+                                            obesity, diabetes, and hypertension. Engaging in a variety of movements and
+                                            activities promotes overall health and longevity.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\distance.png' %}" alt=""
+                                                    height="50px" width="50px" ; /><a href="#"> Orientation</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Orientation in health refers to understanding
+                                            and familiarizing oneself with various aspects of health, including
+                                            physical, mental, and social well-being, as well as health-related
+                                            resources, services, and practices. It involves gaining knowledge, skills,
+                                            and awareness to make informed decisions and promote optimal health
+                                            outcomes.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Health orientation plays a vital role in
+                                            promoting individual and community health and well-being. By acquiring
+                                            knowledge about health-related topics such as nutrition, exercise, disease
+                                            prevention, stress management, and healthcare services, individuals can
+                                            adopt healthier lifestyles, make better choices, and take proactive steps to
+                                            maintain and improve their health.</p>
+                                        <br>
+                                        <p><strong>Components:</strong> Orientation in health encompasses various
+                                            components, including health education, health literacy, health promotion,
+                                            and disease prevention. It involves understanding the determinants of
+                                            health, recognizing risk factors and protective factors, accessing reliable
+                                            health information, and developing skills for health behavior change.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\oxygen2.jpg' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#"> Oxygen</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Oxygen is a chemical element with the symbol 'O'
+                                            and atomic number 8. It is a colorless, odorless, and tasteless gas that is
+                                            essential for the survival of most living organisms. Oxygen plays a vital
+                                            role in cellular respiration, providing energy to cells and facilitating
+                                            various metabolic processes.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Oxygen is crucial for the functioning of
+                                            aerobic organisms, including humans. It is necessary for the production of
+                                            adenosine triphosphate (ATP), the primary energy carrier in cells. Oxygen
+                                            also serves as a component of various biological molecules, including DNA,
+                                            proteins, and lipids.</p>
+                                        <br>
+                                        <p><strong>Health Implications:</strong> Adequate oxygen intake is essential for
+                                            maintaining optimal health and well-being. Oxygen therapy is used in medical
+                                            settings to treat conditions such as respiratory disorders, hypoxia (low
+                                            oxygen levels in the blood), and carbon monoxide poisoning. However,
+                                            excessive exposure to high levels of oxygen can lead to oxidative stress and
+                                            lung damage.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\bodytem.jpg' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#">Heart Activity</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Heart activity refers to the rhythmic
+                                            contractions and relaxations of the heart muscle, which pump blood
+                                            throughout the body to deliver oxygen and nutrients to tissues and organs.
+                                            It is regulated by the electrical conduction system of the heart and
+                                            influenced by factors such as physical activity, emotions, and autonomic
+                                            nervous system activity.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Heart activity is essential for maintaining
+                                            blood circulation and sustaining life. The heart's ability to efficiently
+                                            pump blood ensures the delivery of oxygen and nutrients to cells and the
+                                            removal of metabolic waste products. Monitoring heart activity through
+                                            parameters such as heart rate, rhythm, and electrocardiogram (ECG) helps
+                                            assess cardiovascular health, detect abnormalities, and guide medical
+                                            interventions.</p>
+                                        <br>
+                                        <p><strong>Measurement:</strong> Heart activity can be measured using various
+                                            methods, including pulse palpation, auscultation (listening to heart
+                                            sounds), and electrocardiography (ECG/EKG). The heart rate, measured in
+                                            beats per minute (bpm), indicates the frequency of cardiac contractions.
+                                            Normal resting heart rate typically ranges from 60 to 100 bpm, with
+                                            variations based on factors such as age, fitness level, and health status.
+                                            <br>
+                                        </p>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\bodytem.jpg' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#">Breathing Rate</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Breathing rate, also known as respiratory rate,
+                                            refers to the number of breaths taken per minute, representing the frequency
+                                            of inhalation and exhalation. It is a vital physiological parameter
+                                            regulated by the respiratory center in the brainstem and influenced by
+                                            factors such as physical activity, emotions, and metabolic demands.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Breathing rate is essential for gas exchange
+                                            in the lungs, where oxygen is taken in and carbon dioxide is expelled. It
+                                            plays a critical role in maintaining adequate oxygenation of tissues and
+                                            removing metabolic waste products. Monitoring breathing rate can help assess
+                                            respiratory function, detect abnormalities, and guide medical interventions
+                                            in conditions such as respiratory distress, lung diseases, and metabolic
+                                            disorders.</p>
+                                        <br>
+                                        <p><strong>Measurement:</strong> Breathing rate can be measured directly by
+                                            counting the number of breaths per minute or indirectly using devices such
+                                            as respiratory rate monitors or spirometers. Normal resting breathing rate
+                                            typically ranges from 12 to 20 breaths per minute for adults, with
+                                            variations based on factors such as age, fitness level, and health status.
+                                            <br>
+                                        </p>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\bodytem.jpg' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#">Blood Glucose Level</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Blood glucose level, also known as blood sugar
+                                            level, refers to the concentration of glucose (sugar) present in the
+                                            bloodstream. Glucose serves as the primary source of energy for cells and is
+                                            regulated by hormones such as insulin and glucagon.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Maintaining blood glucose levels within a
+                                            normal range is crucial for overall health and well-being. Glucose levels
+                                            can fluctuate throughout the day in response to factors such as food intake,
+                                            physical activity, stress, and hormonal changes. Abnormalities in blood
+                                            glucose levels, such as hyperglycemia (elevated blood sugar) or hypoglycemia
+                                            (low blood sugar), can have serious health consequences and may indicate
+                                            underlying conditions such as diabetes mellitus.</p>
+                                        <br>
+                                        <p><strong>Measurement:</strong> Blood glucose levels can be measured using a
+                                            blood glucose meter, which analyzes a small sample of blood obtained through
+                                            a finger prick or other methods. Normal fasting blood glucose levels
+                                            typically range between 70 to 100 milligrams per deciliter (mg/dL), although
+                                            optimal ranges may vary depending on individual factors and medical
+                                            guidelines.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li>
+                                                <img src="{% static 'img\dashboard\sleep.png' %}" alt="" height="50px"
+                                                    width="50px" />
+                                                <a href="#">Sleep</a>
+                                            </li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Sleep is a natural, recurring state of rest
+                                            characterized by reduced consciousness, decreased sensory activity, and
+                                            suspended voluntary muscle movement. It is essential for overall health,
+                                            cognitive function, and emotional well-being.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Sleep plays a crucial role in various
+                                            physiological processes, including memory consolidation, immune function,
+                                            hormone regulation, and cellular repair. Chronic sleep deprivation can lead
+                                            to numerous health issues, such as impaired cognitive function, mood
+                                            disorders, weakened immune system, and increased risk of chronic diseases
+                                            like obesity, diabetes, and cardiovascular diseases.</p>
+                                        <br>
+                                        <p><strong>Recommended Duration:</strong> The recommended duration of sleep
+                                            varies with age. Adults typically require 7-9 hours of quality sleep per
+                                            night for optimal health and functioning. However, individual needs may
+                                            vary, and factors such as lifestyle, genetics, and underlying health
+                                            conditions can influence sleep requirements.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\stress.jpg' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#"> Stress</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Stress is the body's natural response to
+                                            external pressures or demands, often referred to as stressors. It can be
+                                            triggered by various factors, including work, relationships, financial
+                                            problems, and major life events. While some stress can be beneficial,
+                                            chronic or excessive stress can have detrimental effects on physical,
+                                            mental, and emotional well-being.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Stress activates the body's "fight or flight"
+                                            response, leading to physiological changes such as increased heart rate,
+                                            elevated blood pressure, and heightened alertness. Short-term stress can
+                                            enhance performance and motivation, but chronic stress can contribute to
+                                            health problems such as anxiety, depression, insomnia, digestive issues, and
+                                            cardiovascular disease.</p>
+                                        <br>
+                                        <p><strong>Management:</strong> Effective stress management techniques include
+                                            relaxation techniques (e.g., deep breathing, meditation, yoga), regular
+                                            exercise, maintaining a balanced diet, adequate sleep, time management,
+                                            setting boundaries, seeking social support, and engaging in hobbies or
+                                            activities that bring joy and relaxation. Seeking professional help from
+                                            therapists or counselors may be beneficial for individuals struggling to
+                                            cope with chronic stress.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\step2.png' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#"> Steps</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Steps, often measured using a pedometer or
+                                            fitness tracker, represent the number of physical steps taken by an
+                                            individual during a certain period, typically a day. It's a simple yet
+                                            effective way to monitor physical activity levels and promote an active
+                                            lifestyle.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Taking an adequate number of steps each day is
+                                            associated with numerous health benefits, including improved cardiovascular
+                                            health, weight management, enhanced mood, increased energy levels, and
+                                            reduced risk of chronic diseases such as diabetes and hypertension.
+                                            Incorporating regular walking or step-based activities into daily routines
+                                            can contribute to overall well-being.</p>
+                                        <br>
+                                        <p><strong>Tracking:</strong> Tracking daily steps can be done using various
+                                            devices, including smartphones, smartwatches, and dedicated fitness
+                                            trackers. Many health apps provide step-counting features along with
+                                            additional metrics such as distance traveled, calories burned, and active
+                                            minutes. Setting step goals and gradually increasing daily step counts can
+                                            help individuals achieve and maintain an active lifestyle.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="accordion">
+                                    <button class="accordion-header">
+                                        <span>
+                                            <li><img src="{% static 'img\dashboard\bodytem.jpg' %}" alt="" height="50px"
+                                                    width="50px" ; /><a href="#">Calories</a></li>
+                                        </span>
+                                        <svg class="arrow" viewBox="0 0 320 512" width="16" title="angle-down"
+                                            color="white">
+                                            <path
+                                                d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z" />
+                                        </svg>
+                                    </button>
+                                    <div class="accordion-body">
+                                        <p>
+                                        <p><strong>Definition:</strong> Calories are a unit of measurement used to
+                                            quantify the energy content of food and beverages. They represent the amount
+                                            of energy required to raise the temperature of one gram of water by one
+                                            degree Celsius. In the context of nutrition, calories refer to the energy
+                                            obtained from the macronutrients—carbohydrates, proteins, and fats—consumed
+                                            in the diet.</p>
+                                        <br>
+                                        <p><strong>Significance:</strong> Calories play a crucial role in providing the
+                                            energy necessary for bodily functions, physical activity, and metabolic
+                                            processes. The balance between calorie intake and expenditure influences
+                                            body weight and composition. Consuming an excess of calories relative to
+                                            energy expenditure can lead to weight gain and obesity, while a deficit can
+                                            result in weight loss.</p>
+                                        <br>
+                                        <p><strong>Measurement:</strong> The calorie content of foods and beverages is
+                                            typically listed on nutrition labels in kilocalories (kcal) or kilojoules
+                                            (kJ). One kilocalorie is equivalent to 1,000 calories, and it represents the
+                                            amount of energy required to raise the temperature of one kilogram of water
+                                            by one degree Celsius. The calorie needs of individuals vary based on
+                                            factors such as age, gender, weight, height, activity level, and metabolic
+                                            rate.</p>
+                                        <br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 
+              youtube: https://www.youtube.com/watch?v=clSHRmb5yiI
+              -->
+        </div>
+
+    </div>
+
+    </div>
+    <script>
+        const accordions = document.querySelectorAll('.accordion')
+
+        accordions.forEach((accordion) => {
+            accordion.addEventListener('click', () => {
+                const body = accordion.querySelector('.accordion-body')
+                body.classList.toggle('active')
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+    <style>
+        /* Fonts */
+        
+        @import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto:400,700&display=swap");
+        /*
+=============== 
+Global Styles
+===============
+*/
+        
+        *,
+         ::after,
+         ::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .frndbody {
+            font-family: "Open Sans", sans-serif;
+            background: transparent;
+            color: hsl(209, 61%, 16%);
+            line-height: 1.5;
+            font-size: 0.875rem;
+        }
+        
+        h2,
+        h4 {
+            letter-spacing: 0.2rem;
+            text-transform: capitalize;
+            line-height: 1.25;
+            margin-bottom: 0.75rem;
+            font-family: "Roboto", sans-serif;
+        }
+        
+        h2 {
+            font-size: 2rem;
+        }
+        
+        h4 {
+            font-size: 0.875rem;
+        }
+        
+        p {
+            margin-bottom: 1.25rem;
+            color: rgb(18, 3, 73);
+        }
+        /*
+=============== 
+Reviews
+===============
+*/
+        
+        main {
+            min-height: 90vh;
+            display: grid;
+            place-items: center;
+        }
+        
+        .title {
+            text-align: center;
+            margin-top: 0.1rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .underline {
+            height: 0.25rem;
+            width: 5rem;
+            background: #2364d2;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .container {
+            width: 80vw;
+            max-width: 600px;
+        }
+        
+        .review {
+            background: whitesmoke;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: box-shadow 0.3s linear;
+            text-align: center;
+        }
+        
+        .review:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .img-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto;
+            margin-bottom: 1.5rem;
+        }
+        
+        #person-img {
+            width: 100%;
+            display: block;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .img-container::after {
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f10e";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            transform: translateY(25%);
+            background: #2364d2;
+            color: rgb(245, 235, 235);
+        }
+        
+        .img-container::before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: #2364d2;
+            position: absolute;
+            top: -0.25rem;
+            right: -0.5rem;
+            border-radius: 50%;
+        }
+        
+        #author {
+            margin-bottom: 0.25rem;
+        }
+        
+        #job {
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            color: black;
+            font-size: 0.85rem;
+        }
+        
+        #info {
+            margin-bottom: 0.75rem;
+        }
+        
+        .prev-btn,
+        .next-btn {
+            color: #2364d2;
+            font-size: 1.25rem;
+            background: transparent;
+            border-color: transparent;
+            margin: 0 0.5rem;
+            transition: color 0.3s linear;
+            cursor: pointer;
+        }
+        
+        .prev-btn:hover,
+        .next-btn:hover {
+            color: black;
+        }
+        
+        .random-btn {
+            margin-top: 0.5rem;
+            background: #2364d2;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            text-transform: capitalize;
+            border-radius: 5px;
+            transition: background 0.3s linear, color 0.3s linear;
+            border: 2px solid black;
+            cursor: pointer;
+        }
+        
+        .random-btn:hover {
+            background: rgb(3, 3, 3);
+            color: rgb(243, 233, 233);
+        }
+    </style>
+    <script>
+        //reviews data
+        const reviews = [{
+            id: 1,
+            name: "Robin Frost",
+            job: "Reporter",
+            img: "https://images.unsplash.com/photo-1568044852337-9bcc3378fc3c?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyODA4Nzc4OA&ixlib=rb-1.2.1&q=85",
+            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto asperiores debitis incidunt, eius earum ipsam cupiditate libero? Iste, doloremque nihil?",
+        }, {
+            id: 2,
+            name: "anna johnson",
+            job: "Lawyer",
+            img: "https://images.unsplash.com/photo-1620122303020-87ec826cf70d?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyODA4NzQ4Nw&ixlib=rb-1.2.1&q=85",
+            text: "Porem ipsum , eius earum ipsam cupiditate libero? Iste, doloremque nihil? dolor sit amet consectetur adipisicing elit. Iusto asperiores debitis incidunt...",
+        }, {
+            id: 3,
+            name: "peter jones",
+            job: "intern",
+            img: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyODA4Nzg2NQ&ixlib=rb-1.2.1&q=85",
+            text: "Iusto asperiores debitis incidunt, eius earum ipsam cupiditate libero? Iste, doloremque nihil?.Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+        }, {
+            id: 4,
+            name: "bill anderson",
+            job: "the boss",
+            img: "https://images.unsplash.com/flagged/photo-1595514191830-3e96a518989b?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyODA4Nzg2NQ&ixlib=rb-1.2.1&q=85",
+            text: "&ukuLorem ip Iste, doloremque nihil? sum dolor sit amet consectetur adipisicing elit. Iusto asperiores debitis incidunt, eius earum ipsam cupiditate libero? ",
+        }, ];
+
+        // select items to change
+        const img = document.getElementById("person-img");
+        const author = document.getElementById("author");
+        const job = document.getElementById("job");
+        const info = document.getElementById("info");
+
+        const prevBtn = document.querySelector(".prev-btn");
+        const nextBtn = document.querySelector(".next-btn");
+        const randomBtn = document.querySelector(".random-btn");
+
+        // set first item
+        let currentItem = 0;
+
+        // load initial item
+        window.addEventListener("DOMContentLoaded", function() {
+            const item = reviews[currentItem];
+            img.src = item.img;
+            author.textContent = item.name;
+            job.textContent = item.job;
+            info.textContent = item.text;
+        });
+
+        // save person data
+        function showPerson(person) {
+            const item = reviews[person];
+            img.src = item.img;
+            author.textContent = item.name;
+            job.textContent = item.job;
+            info.textContent = item.text;
+        }
+        // show next person
+        nextBtn.addEventListener("click", function() {
+            currentItem++;
+            if (currentItem > reviews.length - 1) {
+                currentItem = 0;
+            }
+            showPerson(currentItem);
+        });
+        // show prev person
+        prevBtn.addEventListener("click", function() {
+            currentItem--;
+            if (currentItem < 0) {
+                currentItem = reviews.length - 1;
+            }
+            showPerson(currentItem);
+        });
+        // show random person
+        randomBtn.addEventListener("click", function() {
+            console.log("hello");
+
+            currentItem = Math.floor(Math.random() * reviews.length);
+            showPerson(currentItem);
+        });
+    </script>
+
+</head>
+
+<body>
+    <div class="page d-flex">
+        <video autoplay loop muted width="320" height="240">
+        <source src="dashboard.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+      </video>
+        <div class="sidebar bg-theme p-20 p-relative">
+            <center><img class="rad-half mb-10" src="imgs/avatar.png" alt="" height="20%" width="50%" /></center>
+            <h3 class="p-relative txt-c mt-0">Sam</h3>
+            <ul>
+
+                <li>
+                    <a class=" d-flex align-center fs-14 rad-6 p-10" href="profile2.html">
+                        <i class="fa-regular fa-user fa-fw"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="d-flex align-center fs-14 rad-6 p-10" href="Nutricnt.html">
+
+                        <i class="fa-regular fa-credit-card fa-fw"></i>
+                        <span>Nutricnt Calculater</span>
+                    </a>
+                    <li>
+                        <li>
+                            <a class="d-flex align-center fs-14 rad-6 p-10" href="Fitness.html">
+                                <i class="fa-regular fa-chart-bar fa-fw"></i>
+                                <span>Fitness & Health</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-center fs-14 rad-6 p-10" href="Recent.html">
+
+                                <i class="fa-solid fa-diagram-project fa-fw"></i>
+                                <span>Recent Start</span>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a class="d-flex align-center fs-14 rad-6 p-10" href="course2.html">
+                                <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                                <span>Courses</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="active d-flex align-center fs-14 rad-6 p-10" href="frinds2.html">
+                                <i class="fa-regular fa-circle-user fa-fw"></i>
+                                <span>Friends</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-center fs-14 rad-6 p-10" href="files2.html">
+                                <i class="fa-regular fa-file fa-fw"></i>
+                                <span>Files</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="d-flex align-center fs-14 rad-6 p-10" href="setting2.html">
+                                <i class="fa-solid fa-gear fa-fw"></i>
+                                <span>Setting</span>
+                            </a>
+                        </li>
+            </ul>
+        </div>
+        <div class="content w-full">
+            <!-- Start Head -->
+            <div class="head p-15 between-flex">
+                <div class="search p-relative">
+                    <input class="p-10" type="search" placeholder="Type A Keyword" />
+                </div>
+                <div class="icons d-flex align-center">
+                    <span class="notification p-relative">
+              <i class="fa-regular fa-bell fa-lg"></i>
+            </span>
+                    <img src="imgs/avatar.png" alt="" />
+                </div>
+            </div>
+            <!-- End Head -->
+            <div class="frndbody">
+
+                <main>
+
+                    <section class="container">
+                        <!-- title -->
+                        <div class="title">
+                            <h2>Our Customer</h2>
+                            <div class="underline"></div>
+                        </div>
+                        <!-- review -->
+                        <article class="review">
+                            <div class="img-container">
+                                <img src="https://images.unsplash.com/photo-1568044852337-9bcc3378fc3c?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYyODA4Nzc4OA&ixlib=rb-1.2.1&q=85" id="person-img" alt="" />
+                            </div>
+                            <h4 id="author">Robin Frost</h4>
+                            <p id="job">Reporter</p>
+                            <p id="info">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto asperiores debitis incidunt, eius earum ipsam cupiditate libero? Iste, doloremque nihil?
+                            </p>
+                            <!-- prev next buttons-->
+                            <div class="button-container">
+                                <button class="prev-btn">
+                        <i class="fas fa-chevron-left"></i>
+                      </button>
+                                <button class="next-btn">
+                        <i class="fas fa-chevron-right"></i>
+                      </button>
+                            </div>
+                            <!-- random button -->
+                            <button class="random-btn">Message</button>
+                        </article>
+                    </section>
+                </main>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- javascript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
